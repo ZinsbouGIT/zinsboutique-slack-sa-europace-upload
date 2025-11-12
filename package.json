@@ -1,5 +1,5 @@
 {
-  "name": "zb-sa-slack-europace-upload",
+  "name": "zinsboutique-slack-sa-europace-upload",
   "version": "1.0.0",
   "description": "ZinsBoutique Slack bot that uploads Selbstauskunft PDFs to Europace",
   "main": "dist/index.js",

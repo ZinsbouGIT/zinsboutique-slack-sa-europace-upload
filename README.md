@@ -125,8 +125,8 @@ Success/Error Message → Slack Thread
 ### 1. Clone and Install
 
 ```bash
-git clone https://github.com/Tim-Logiscale/zinsboutique-sa-europace-upload.git
-cd zinsboutique-sa-europace-upload
+git clone https://github.com/Tim-Logiscale/zinsboutique-slack-sa-europace-upload.git
+cd zinsboutique-slack-sa-europace-upload
 npm install
 ```
 
@@ -217,7 +217,7 @@ docker-compose logs -f
 ## Project Structure
 
 ```
-zinsboutique-sa-europace-upload/
+zinsboutique-slack-sa-europace-upload/
 ├── src/
 │   ├── slack/
 │   │   ├── bot.ts              # Slack Bot setup
