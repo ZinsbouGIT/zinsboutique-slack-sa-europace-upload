@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  europace-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: europace-upload-bot
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      # Mount logs directory for persistence
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+    networks:
+      - europace-network
+
+networks:
+  europace-network:
+    driver: bridge

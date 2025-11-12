@@ -1,0 +1,38 @@
+{
+  "name": "zb-sa-slack-europace-upload",
+  "version": "1.0.0",
+  "description": "ZinsBoutique Slack bot that uploads Selbstauskunft PDFs to Europace",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "watch": "tsc --watch",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [
+    "slack",
+    "europace",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.67.0",
+    "@slack/bolt": "^3.17.1",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.1",
+    "form-data": "^4.0.0",
+    "pdf-parse": "^2.4.5",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@types/pdf-parse": "^1.1.5",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

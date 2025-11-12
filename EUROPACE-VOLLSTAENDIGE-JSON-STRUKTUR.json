@@ -1,0 +1,617 @@
+{
+  "importMetadaten": {
+    "datenkontext": "TEST_MODUS",
+    "externeVorgangsId": "UNIQUE-ID-12345",
+    "importquelle": "Field-Mapping-System - Vollständige Struktur",
+    "prioritaet": "MITTEL",
+    "kommentar": "Vollständiges Template mit allen Feldern"
+  },
+  
+  "kundenangaben": {
+    "haushalte": [
+      {
+        "kunden": [
+          {
+            "externeKundenId": "kunde-001",
+            "referenzId": "antragsteller1",
+            
+            "personendaten": {
+              "person": {
+                "anrede": "HERR",
+                "titel": {
+                  "prof": false,
+                  "dr": true
+                },
+                "vorname": "Max",
+                "nachname": "Mustermann"
+              },
+              "geburtsdatum": "1985-03-15",
+              "geburtsort": "Berlin",
+              "staatsangehoerigkeit": "DE",
+              "geburtsland": {
+                "isoCountryCode": "DE"
+              },
+              "familienstand": {
+                "@type": "VERHEIRATET",
+                "guetertrennungVereinbart": false
+              }
+            },
+            
+            "wohnsituation": {
+              "wohnhaftSeit": "2020-01-01",
+              "anschrift": {
+                "strasse": "Musterstraße",
+                "hausnummer": "42a",
+                "plz": "10115",
+                "ort": "Berlin"
+              },
+              "voranschrift": {
+                "strasse": "Alte Straße",
+                "hausnummer": "10",
+                "plz": "10178",
+                "ort": "Berlin"
+              }
+            },
+            
+            "kontakt": {
+              "telefonnummer": {
+                "vorwahl": "030",
+                "nummer": "12345678"
+              },
+              "email": "max.mustermann@example.com",
+              "weitereKontaktmoeglichkeiten": "Mobil: 0171-9876543, Büro: 030-22334455"
+            },
+            
+            "finanzielles": {
+              "steuerId": "11/815/08150",
+              
+              "beschaeftigung": {
+                "@type": "ANGESTELLTER",
+                "beruf": "Software-Entwickler",
+                "beschaeftigungsstatus": "UNBEFRISTET",
+                "beschaeftigungsverhaeltnis": {
+                  "arbeitgeber": {
+                    "name": "Tech Solutions GmbH",
+                    "inDeutschland": true,
+                    "anschrift": {
+                      "strasse": "Firmenstraße",
+                      "hausnummer": "1",
+                      "plz": "10178",
+                      "ort": "Berlin"
+                    }
+                  },
+                  "beschaeftigtSeit": "2018-01-15",
+                  "probezeit": false,
+                  "anzahlGehaelterProJahr": "DREIZEHN",
+                  "befristetBis": null
+                }
+              },
+              
+              "einkommenNetto": 5000.00,
+              
+              "situationNachRenteneintritt": {
+                "rentenversicherung": {
+                  "@type": "GESETZLICHE_RENTENVERSICHERUNG",
+                  "monatlicheRente": 2000.00,
+                  "renteneintritt": "2052-03-01"
+                },
+                "privateRentenversicherung": {
+                  "monatlicheRente": 500.00,
+                  "renteneintritt": "2052-03-01"
+                },
+                "riestervertraege": [
+                  {
+                    "artDesRiestervertrages": "FONDSSPARPLAN",
+                    "beitragMonatlich": 150.00,
+                    "kinderZulagenAnzahl": 2,
+                    "vertragsnummer": "RV-123456"
+                  }
+                ],
+                "sonstigeEinkuenfte": 300.00
+              },
+              
+              "anzahlKinder": 2,
+              "kindergeldFuerKinderUnter18": true,
+              
+              "sonstigeEinnahmen": {
+                "mietUndPachteinnahmen": 800.00,
+                "kapitalertraege": 1000.00,
+                "kindergeld": 438.00,
+                "variableEinkuenfte": 200.00,
+                "nebentaetigkeiten": 400.00,
+                "ehegattenunterhalt": 0,
+                "unbefristeteZusatzrente": 0
+              },
+              
+              "bankverbindung": {
+                "kreditinstitut": "Berliner Sparkasse",
+                "iban": "DE89370400440532013000",
+                "bic": "COBADEFFXXX",
+                "kontoinhaber": "Dr. Max Mustermann"
+              }
+            },
+            
+            "aufenthaltsstatus": {
+              "@type": "EU_BUERGER"
+            }
+          },
+          
+          {
+            "externeKundenId": "kunde-002",
+            "referenzId": "antragsteller2",
+            
+            "personendaten": {
+              "person": {
+                "anrede": "FRAU",
+                "titel": {
+                  "prof": false,
+                  "dr": false
+                },
+                "vorname": "Erika",
+                "nachname": "Mustermann"
+              },
+              "geburtsdatum": "1987-07-22",
+              "geburtsort": "München",
+              "staatsangehoerigkeit": "DE",
+              "geburtsland": {
+                "isoCountryCode": "DE"
+              },
+              "familienstand": {
+                "@type": "VERHEIRATET",
+                "guetertrennungVereinbart": false
+              }
+            },
+            
+            "wohnsituation": {
+              "wohnhaftSeit": "2020-01-01",
+              "anschrift": {
+                "strasse": "Musterstraße",
+                "hausnummer": "42a",
+                "plz": "10115",
+                "ort": "Berlin"
+              }
+            },
+            
+            "kontakt": {
+              "telefonnummer": {
+                "vorwahl": "030",
+                "nummer": "87654321"
+              },
+              "email": "erika.mustermann@example.com",
+              "weitereKontaktmoeglichkeiten": "Mobil: 0171-8765432"
+            },
+            
+            "finanzielles": {
+              "steuerId": "22/333/44444",
+              
+              "beschaeftigung": {
+                "@type": "ANGESTELLTER",
+                "beruf": "Marketing Managerin",
+                "beschaeftigungsstatus": "UNBEFRISTET",
+                "beschaeftigungsverhaeltnis": {
+                  "arbeitgeber": {
+                    "name": "Marketing Excellence AG",
+                    "inDeutschland": true,
+                    "anschrift": {
+                      "strasse": "Hauptstraße",
+                      "hausnummer": "100",
+                      "plz": "10115",
+                      "ort": "Berlin"
+                    }
+                  },
+                  "beschaeftigtSeit": "2019-03-01",
+                  "probezeit": false,
+                  "anzahlGehaelterProJahr": "ZWOELF"
+                }
+              },
+              
+              "einkommenNetto": 3500.00,
+              
+              "situationNachRenteneintritt": {
+                "rentenversicherung": {
+                  "@type": "GESETZLICHE_RENTENVERSICHERUNG",
+                  "monatlicheRente": 1500.00
+                }
+              },
+              
+              "anzahlKinder": 2,
+              "kindergeldFuerKinderUnter18": false,
+              
+              "bankverbindung": {
+                "kreditinstitut": "Commerzbank",
+                "iban": "DE12500105170648489890",
+                "bic": "COBADEFFXXX",
+                "kontoinhaber": "Erika Mustermann"
+              }
+            },
+            
+            "aufenthaltsstatus": {
+              "@type": "EU_BUERGER"
+            }
+          }
+        ],
+        
+        "kinderErfassung": {
+          "@type": "VORHANDENE_KINDER",
+          "kinder": [
+            {
+              "name": "Kind 1",
+              "geburtsdatum": "2018-05-01",
+              "wohnhaftBeiAntragsteller": true,
+              "kindergeldWirdBezogen": true
+            },
+            {
+              "name": "Kind 2",
+              "geburtsdatum": "2020-08-15",
+              "wohnhaftBeiAntragsteller": true,
+              "kindergeldWirdBezogen": true
+            }
+          ]
+        },
+        
+        "finanzielleSituation": {
+          "gemeinsamerHaushalt": true,
+          
+          "vermoegen": {
+            "bausparvertraege": [
+              {
+                "angesparterBetrag": 15000.00,
+                "sparbeitrag": 200.00,
+                "bausparkasse": "LBS",
+                "bausparsumme": 50000.00,
+                "tarif": "Classic",
+                "vertragsnummer": "BSP-123456",
+                "zuteilungsdatum": "2025-12-31",
+                "verwendung": {
+                  "@type": "KEINE_VERWENDUNG"
+                }
+              },
+              {
+                "angesparterBetrag": 8000.00,
+                "sparbeitrag": 150.00,
+                "bausparkasse": "SCHWAEBISCH_HALL",
+                "bausparsumme": 30000.00,
+                "tarif": "Fuchs",
+                "vertragsnummer": "BSP-789012"
+              },
+              {
+                "angesparterBetrag": 5000.00,
+                "sparbeitrag": 100.00,
+                "bausparkasse": "WUESTENROT",
+                "bausparsumme": 25000.00,
+                "tarif": "Standard",
+                "vertragsnummer": "BSP-345678"
+              }
+            ],
+            
+            "lebensOderRentenversicherungen": [
+              {
+                "rueckkaufswert": 25000.00,
+                "praemieMonatlich": 150.00,
+                "versicherer": "Allianz",
+                "vertragsnummer": "LV-111111",
+                "ablaufdatum": "2035-12-31",
+                "verwendung": {
+                  "@type": "AUFLOESUNG_ALS_VERWENDUNG"
+                }
+              },
+              {
+                "rueckkaufswert": 15000.00,
+                "praemieMonatlich": 100.00,
+                "versicherer": "Generali",
+                "vertragsnummer": "RV-222222",
+                "ablaufdatum": "2040-06-30"
+              },
+              {
+                "rueckkaufswert": 10000.00,
+                "praemieMonatlich": 80.00,
+                "versicherer": "AXA",
+                "vertragsnummer": "LV-333333",
+                "ablaufdatum": "2038-03-31"
+              }
+            ],
+            
+            "summeDepotvermoegen": {
+              "depotwert": 35000.00,
+              "ertragJaehrlich": 1500.00,
+              "beschreibung": "Aktien, ETFs und Anleihen"
+            },
+            
+            "summeBankUndSparguthaben": {
+              "guthaben": 50000.00,
+              "zinsertragJaehrlich": 500.00
+            },
+            
+            "summeSparplaene": {
+              "aktuellerWert": 12000.00,
+              "beitragMonatlich": 300.00
+            },
+            
+            "summeSonstigesVermoegen": {
+              "aktuellerWert": 8000.00,
+              "beschreibung": "Gold, Kunst, Oldtimer, Münzsammlung"
+            }
+          },
+          
+          "einnahmen": {
+            "summeSonstigeEinnahmenMonatlich": {
+              "betrag": 500.00,
+              "kommentar": "Kindergeld und Mieteinnahmen Garage"
+            },
+            
+            "summeVariablerEinkuenfteMonatlich": 300.00,
+            
+            "summeEhegattenunterhalt": 0,
+            
+            "summeUnbefristeteZusatzrentenMonatlich": {
+              "betrag": 200.00,
+              "kommentar": "Betriebsrente"
+            },
+            
+            "einkuenfteAusNebentaetigkeit": [
+              {
+                "betragMonatlich": 400.00,
+                "beschreibung": "Freelance Beratung",
+                "beginnDerTaetigkeit": "2022-01-01"
+              }
+            ]
+          },
+          
+          "ausgaben": {
+            "summeMietausgaben": {
+              "betragMonatlich": 0,
+              "entfaelltMitFinanzierung": false
+            },
+            
+            "unterhaltsverpflichtungenMonatlich": [],
+            
+            "summePrivaterKrankenversicherungenMonatlich": 450.00,
+            
+            "summeSonstigerAusgabenMonatlich": {
+              "betrag": 800.00,
+              "kommentar": "Lebenshaltung, Versicherungen, Hobbys, Mitgliedschaften"
+            },
+            
+            "lebenshaltungskostenMonatlich": 2000.00
+          },
+          
+          "verbindlichkeiten": {
+            "ratenkredite": [
+              {
+                "rateMonatlich": 200.00,
+                "glaeubiger": "Commerzbank",
+                "restschuld": 5000.00,
+                "laufzeitende": "2026-12-31",
+                "ursprungsdarlehen": 10000.00,
+                "zinssatz": 3.5
+              },
+              {
+                "rateMonatlich": 150.00,
+                "glaeubiger": "ADAC Leasing",
+                "restschuld": 8000.00,
+                "laufzeitende": "2027-06-30",
+                "ursprungsdarlehen": 15000.00
+              },
+              {
+                "rateMonatlich": 100.00,
+                "glaeubiger": "MediaMarkt Finanzierung",
+                "restschuld": 2000.00,
+                "laufzeitende": "2025-03-31"
+              }
+            ],
+            
+            "privatdarlehen": [
+              {
+                "rateMonatlich": 100.00,
+                "glaeubiger": "Familie",
+                "restschuld": 3000.00,
+                "laufzeitende": "2025-12-31"
+              },
+              {
+                "rateMonatlich": 50.00,
+                "glaeubiger": "Freunde",
+                "restschuld": 1500.00,
+                "laufzeitende": "2024-12-31"
+              }
+            ],
+            
+            "sonstigeVerbindlichkeit": {
+              "rateMonatlich": 50.00,
+              "kommentar": "Ratenzahlung Möbel - entfällt mit Finanzierung"
+            },
+            
+            "kreditkarten": {
+              "dispositionskredite": 0,
+              "kreditkarten": 500.00,
+              "geduldeteUeberziehungen": 0
+            }
+          },
+          
+          "bestehendeImmobilien": [
+            {
+              "id": "immobilie-1",
+              "bezeichnung": "Eigentumswohnung Berlin",
+              "marktwert": 450000.00,
+              "verkehrswert": 450000.00,
+              "immobilie": {
+                "adresse": {
+                  "strasse": "Wohnstraße",
+                  "hausnummer": "15",
+                  "plz": "10179",
+                  "ort": "Berlin"
+                },
+                "typ": {
+                  "@type": "EIGENTUMSWOHNUNG",
+                  "grundstuecksgroesse": 0,
+                  "gebaeude": {
+                    "baujahr": 2015,
+                    "nutzung": {
+                      "wohnen": {
+                        "gesamtflaeche": 120,
+                        "nutzungsart": {
+                          "@type": "EIGENGENUTZT",
+                          "mieteinnahmenNettoKaltMonatlich": 0,
+                          "vermieteteFlaeche": 0
+                        }
+                      },
+                      "gewerbe": null
+                    },
+                    "modernisierungen": [
+                      {
+                        "jahr": 2020,
+                        "beschreibung": "Neue Heizung",
+                        "kosten": 15000.00
+                      }
+                    ]
+                  }
+                }
+              },
+              "darlehensliste": [
+                {
+                  "@type": "BESTEHENDES_IMMOBILIENDARLEHEN",
+                  "grundschuldart": "BUCH_GRUNDSCHULD",
+                  "darlehensgeber": {
+                    "@type": "PRODUKTANBIETER_DARLEHENSGEBER",
+                    "produktanbieter": "Sparkasse Berlin"
+                  },
+                  "grundschuld": 200000.00,
+                  "rateMonatlich": 850.00,
+                  "zinsbindungBis": "2028-12-31",
+                  "restschuld": {
+                    "aktuell": 180000.00,
+                    "zumZinsbindungsende": 165000.00
+                  },
+                  "darlehensnummer": "DL-123456789",
+                  "kondition": {
+                    "zinssatz": 1.5,
+                    "tilgungssatz": 2.0
+                  }
+                }
+              ]
+            },
+            {
+              "id": "immobilie-2",
+              "bezeichnung": "Vermietetes Apartment München",
+              "marktwert": 300000.00,
+              "immobilie": {
+                "adresse": {
+                  "strasse": "Vermietstraße",
+                  "hausnummer": "8",
+                  "plz": "80331",
+                  "ort": "München"
+                },
+                "typ": {
+                  "@type": "EIGENTUMSWOHNUNG",
+                  "grundstuecksgroesse": 0,
+                  "gebaeude": {
+                    "baujahr": 2010,
+                    "nutzung": {
+                      "wohnen": {
+                        "gesamtflaeche": 75,
+                        "nutzungsart": {
+                          "@type": "VERMIETET",
+                          "mieteinnahmenNettoKaltMonatlich": 1200.00,
+                          "vermieteteFlaeche": 75
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "darlehensliste": []
+            }
+          ]
+        }
+      }
+    ],
+    
+    "immobilien": [
+      {
+        "id": "kauf-immobilie",
+        "nutzungsart": "EIGENGENUTZT",
+        "bezeichnung": "Neues Eigenheim",
+        "adresse": {
+          "strasse": "Neue Straße",
+          "hausnummer": "100",
+          "plz": "10115",
+          "ort": "Berlin"
+        },
+        "ertragswert": {
+          "marktwert": 550000.00,
+          "vermieteteFlaeche": 0
+        },
+        "wohnflaeche": 150,
+        "grundstueck": {
+          "grundstuecksgroesse": 500,
+          "grundbuchEintragVorhanden": false
+        }
+      }
+    ],
+    
+    "bestehendeImmobilienfinanzierungen": []
+  },
+  
+  "finanzierungsobjekt": {
+    "objektart": "EIGENTUMSWOHNUNG",
+    "nutzungsart": "EIGENNUTZUNG",
+    "vermarktung": "KAUF",
+    "objektadresse": {
+      "strasse": "Neue Straße",
+      "hausnummer": "100",
+      "plz": "10115",
+      "ort": "Berlin"
+    },
+    "etw": {
+      "bezeichnung": "WE 15",
+      "wohnflaeche": 150,
+      "baujahr": 2020,
+      "anzahlZimmer": 4.5,
+      "etage": 3,
+      "anzahlEtagen": 5
+    },
+    "grundstueck": {
+      "grundstuecksgroesse": 0
+    },
+    "ausstattung": {
+      "heizungsart": "FUSSBODEN",
+      "befeuerungsart": "FERNWAERME",
+      "energieausweis": {
+        "@type": "VERBRAUCHSAUSWEIS",
+        "endenergieverbrauch": 75,
+        "energieeffizienzklasse": "B"
+      }
+    }
+  },
+  
+  "finanzbedarf": {
+    "finanzierungszweck": "KAUF",
+    "kaufpreis": 550000.00,
+    "erwerbsnebenkosten": {
+      "maklerkosten": 19635.00,
+      "notarkosten": 11000.00,
+      "grunderwerbsteuer": 33000.00,
+      "sonstigeKosten": 1000.00
+    },
+    "modernisierung": 20000.00,
+    "eigenkapital": 100000.00,
+    "eigenleistungen": 5000.00,
+    "kommentar": "Kauf einer Eigentumswohnung als Hauptwohnsitz"
+  },
+  
+  "finanzierungswunsch": {
+    "darlehenssumme": 480000.00,
+    "sollzinssatz": 3.5,
+    "tilgungssatz": 2.0,
+    "zinsbindung": {
+      "jahre": 10,
+      "monate": 0
+    },
+    "bereitstellungszinsfreieZeit": {
+      "monate": 6
+    },
+    "sondertilgung": {
+      "moeglichkeit": true,
+      "prozentProJahr": 5.0
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "_comment": "CORRECT Europace Kundenangaben API - Create Vorgang",
+  "_endpoint": "POST https://baufinanzierung.api.europace.de/kundenangaben",
+  "_authentication": "Bearer Token (OAuth2) - NOT Basic Auth!",
+  "_required_scopes": [
+    "baufinanzierung:echtgeschaeft",
+    "baufinanzierung:vorgang:schreiben"
+  ],
+
+  "importMetadaten": {
+    "datenkontext": "ECHT_GESCHAEFT",
+    "externeVorgangsId": "SLACK_UPLOAD_{{timestamp}}",
+    "importquelle": "Slack Bot Upload"
+  },
+
+  "kundenangaben": {
+    "haushalte": [
+      {
+        "personen": [
+          {
+            "personendaten": {
+              "vorname": "{{extracted_from_pdf}}",
+              "nachname": "{{extracted_from_pdf}}",
+              "geburtsdatum": "{{extracted_from_pdf}}",
+              "email": "{{extracted_from_pdf}}",
+              "telefonnummer": "{{extracted_from_pdf}}"
+            },
+            "beschaeftigungsverhaeltnis": {
+              "beschaeftigungsart": "ANGESTELLT",
+              "arbeitgeber": {
+                "name": "{{extracted_from_pdf}}"
+              },
+              "nettoeinkommenMonatlich": 0
+            }
+          }
+        ]
+      }
+    ],
+
+    "finanzierungsobjekt": {
+      "adresse": {
+        "strasse": "{{extracted_from_pdf}}",
+        "hausnummer": "{{extracted_from_pdf}}",
+        "plz": "{{extracted_from_pdf}}",
+        "ort": "{{extracted_from_pdf}}"
+      },
+      "objektart": "EINFAMILIENHAUS",
+      "nutzungsart": "EIGENGENUTZT"
+    },
+
+    "finanzierungsbedarf": {
+      "finanzierungszweck": "KAUF",
+      "kaufpreis": 0,
+      "eigenkapital": 0
+    }
+  }
+}
