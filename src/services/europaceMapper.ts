@@ -507,7 +507,7 @@ export function mapToEuropacePayload(extractedData: SelbstauskunftData) {
       } : {}),
 
       // BLOCK-007: Liabilities (Verbindlichkeiten)
-      ...((extractedData.bestehendeKredite && extractedData.bestehendeKredite.length > 0) || extractedData.ratenkredite ? {
+      ...((extractedData.bestehendeKredite && extractedData.bestehendeKredite.length > 0) || extractedData.ratenkredite || extractedData.privatdarlehen || extractedData.sonstigeVerbindlichkeitRateMonatlich ? {
         verbindlichkeiten: {
           // Installment loans
           ...((extractedData.bestehendeKredite && extractedData.bestehendeKredite.length > 0) && {
@@ -535,6 +535,12 @@ export function mapToEuropacePayload(extractedData: SelbstauskunftData) {
               ...(darlehen.rateMonatlich && { rateMonatlich: parseGermanNumber(darlehen.rateMonatlich) }),
               ...(darlehen.laufzeitende && { laufzeitende: normalizeDate(darlehen.laufzeitende) }),
             })),
+          }),
+          // Sonstige Verbindlichkeiten (Other liabilities)
+          ...(extractedData.sonstigeVerbindlichkeitRateMonatlich && {
+            sonstigeVerbindlichkeit: {
+              rateMonatlich: parseGermanNumber(extractedData.sonstigeVerbindlichkeitRateMonatlich),
+            },
           }),
           // Credit cards
           kreditkarten: {
