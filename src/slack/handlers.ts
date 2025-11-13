@@ -88,7 +88,7 @@ export async function handleFileUpload(
     });
 
     // Optionally upload the payload as JSON for reference
-    const vorgangPayload = createEuropacePayload(extractedData);
+    const vorgangPayload = await createEuropacePayload(extractedData);
     const vorgangPayloadJson = JSON.stringify(vorgangPayload, null, 2);
     await client.files.uploadV2({
       channel_id: config.slack.channelId,

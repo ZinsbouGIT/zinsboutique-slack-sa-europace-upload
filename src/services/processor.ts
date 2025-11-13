@@ -51,7 +51,7 @@ export async function processUpload(
 
     // Step 1: Map extracted data to Europace structure using TypeScript mapper
     logger.info('Step 1: Mapping extracted data to Europace structure');
-    const payload = createEuropacePayload(extractedData);
+    const payload = await createEuropacePayload(extractedData);
 
     // Step 2: Create Vorgang with mapped payload
     logger.info('Step 2: Creating Vorgang in Europace');

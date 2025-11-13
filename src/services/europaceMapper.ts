@@ -12,6 +12,7 @@ import {
   normalizeDate,
   parseGermanNumber,
 } from './enumMappers';
+import { lookupBIC } from '../utils/bicLookup';
 
 /**
  * Generate vorgang name based on applicant(s)
@@ -575,7 +576,12 @@ export function mapToEuropacePayload(extractedData: SelbstauskunftData) {
  */
 export function cleanPayload(obj: any): any {
   if (Array.isArray(obj)) {
-    return obj.map(cleanPayload).filter(item => item !== null && item !== undefined);
+    return obj.map(cleanPayload).filter(item => {
+      if (item === null || item === undefined) return false;
+      // Filter out empty objects from arrays
+      if (typeof item === 'object' && !Array.isArray(item) && Object.keys(item).length === 0) return false;
+      return true;
+    });
   }
 
   if (obj !== null && typeof obj === 'object') {
@@ -602,9 +608,13 @@ export function cleanPayload(obj: any): any {
 
 /**
  * Main export: Create clean Europace payload from extracted data
+ * Now async to support BIC lookup when missing
  */
-export function createEuropacePayload(extractedData: SelbstauskunftData) {
-  const payload = mapToEuropacePayload(extractedData);
+export async function createEuropacePayload(extractedData: SelbstauskunftData) {
+  // Lookup missing BICs before mapping
+  const enrichedData = await enrichWithBIC(extractedData);
+
+  const payload = mapToEuropacePayload(enrichedData);
   const cleaned = cleanPayload(payload);
 
   console.log(`[DEBUG] Final payload structure check:`);
@@ -616,4 +626,37 @@ export function createEuropacePayload(extractedData: SelbstauskunftData) {
   console.log(`[DEBUG] - externeVorgangsId: "${cleaned.importMetadaten?.externeVorgangsId}"`);
 
   return cleaned;
+}
+
+/**
+ * Enrich extracted data with BIC lookup for missing BIC codes
+ */
+async function enrichWithBIC(extractedData: SelbstauskunftData): Promise<SelbstauskunftData> {
+  const enriched = { ...extractedData };
+
+  // Lookup BIC for Antragsteller 1 if IBAN exists but BIC doesn't
+  if (enriched.iban && !enriched.bic) {
+    console.log(`[BIC] Antragsteller 1: IBAN found but BIC missing, attempting lookup...`);
+    const bic = await lookupBIC(enriched.iban, enriched.bankname);
+    if (bic) {
+      enriched.bic = bic;
+      console.log(`[BIC] ✓ Antragsteller 1: BIC found and added: ${bic}`);
+    } else {
+      console.log(`[BIC] ⚠ Antragsteller 1: Could not lookup BIC for IBAN ${enriched.iban}`);
+    }
+  }
+
+  // Lookup BIC for Antragsteller 2 if IBAN exists but BIC doesn't
+  if (enriched.antragsteller2_iban && !enriched.antragsteller2_bic) {
+    console.log(`[BIC] Antragsteller 2: IBAN found but BIC missing, attempting lookup...`);
+    const bic = await lookupBIC(enriched.antragsteller2_iban, enriched.antragsteller2_bankname);
+    if (bic) {
+      enriched.antragsteller2_bic = bic;
+      console.log(`[BIC] ✓ Antragsteller 2: BIC found and added: ${bic}`);
+    } else {
+      console.log(`[BIC] ⚠ Antragsteller 2: Could not lookup BIC for IBAN ${enriched.antragsteller2_iban}`);
+    }
+  }
+
+  return enriched;
 }

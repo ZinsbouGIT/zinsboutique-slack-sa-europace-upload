@@ -314,7 +314,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "antragsteller2_geburtsort": "Second applicant place of birth",
   "antragsteller2_email": "Second applicant email",
   "antragsteller2_telefonnummer": "Second applicant phone",
-  "antragsteller2_familienstand": "Second applicant marital status",
+  "antragsteller2_familienstand": "Second applicant marital status: LEDIG/VERHEIRATET/GESCHIEDEN/VERWITWET/EINGETRAGENE_LEBENSPARTNERSCHAFT",
   "antragsteller2_staatsangehoerigkeit": "Second applicant nationality",
   "antragsteller2_steuerId": "🔴 CRITICAL: Second applicant Tax ID / Steuer-ID (11-digit number)",
   "antragsteller2_strasse": "Second applicant street (or same as applicant 1)",
