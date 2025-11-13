@@ -34,17 +34,37 @@ export async function parseWithAI(pdfBuffer: Buffer): Promise<SelbstauskunftData
             },
             {
               type: 'text',
-              text: `Analyze this Selbstauskunft (self-disclosure) form and extract ALL available information for BOTH applicants if present.
+              text: `🇩🇪 DEUTSCHES DOKUMENT - GERMAN DOCUMENT 🇩🇪
+
+⚠️⚠️⚠️ KRITISCH: DEUTSCHES DATUMSFORMAT ⚠️⚠️⚠️
+
+DIESES DOKUMENT IST EIN DEUTSCHES SELBSTAUSKUNFT-FORMULAR!
+IN DEUTSCHLAND IST DAS DATUMSFORMAT IMMER: TAG.MONAT.JAHR (DD.MM.YYYY)
+
+🔴🔴🔴 ABSOLUT NIEMALS US-FORMAT (MM/DD/YYYY) VERWENDEN! 🔴🔴🔴
+
+DATUM-KONVERTIERUNGS-REGELN (LESEN SIE DIESE 3X!!!):
+1. Deutsches Format im PDF: DD.MM.YYYY (z.B. 15.03.1985)
+2. ERSTE Zahl = TAG (day), ZWEITE Zahl = MONAT (month), DRITTE Zahl = JAHR (year)
+3. Konvertierung zu ISO: YYYY-MM-DD
+4. Beispiel: "15.03.1985" → "1985-03-15" (JAHR-MONAT-TAG)
+
+❌ FALSCH: "15.03.1985" → "1985-15-03" (NIEMALS!)
+✅ RICHTIG: "15.03.1985" → "1985-03-15"
+
+❌ FALSCH: "01.11.2020" → "2020-01-11" (Das wäre 11. Januar statt 1. November!)
+✅ RICHTIG: "01.11.2020" → "2020-11-01" (1. November)
+
+❌ FALSCH: "25.12.1990" → "1990-25-12" (Unmöglicher Monat 25!)
+✅ RICHTIG: "25.12.1990" → "1990-12-25" (25. Dezember)
+
+MERKE: Bei deutschen Daten steht der TAG IMMER ZUERST!
+
+Analyze this Selbstauskunft (self-disclosure) form and extract ALL available information for BOTH applicants if present.
 
 CRITICAL: Many PDFs contain TWO applicants:
 - Antragsteller 1 (First Applicant)
 - Antragsteller 2 / Mitantragsteller (Second Applicant / Co-Applicant)
-
-🔴 CRITICAL DATE FORMAT INSTRUCTION:
-- German dates are written as DD.MM.YYYY or DD/MM/YYYY (e.g., 15.03.1985 or 15/03/1985)
-- You MUST convert them to YYYY-MM-DD format (e.g., 1985-03-15)
-- NEVER interpret German dates as MM/DD/YYYY (US format)
-- Example: "25.12.1990" = 1990-12-25 (NOT 1990-25-12!)
 
 Return ONLY a valid JSON object (no markdown, no explanation) with this structure. Extract EVERY field you can find from ALL sections:
 
@@ -54,7 +74,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   // ==========================================
   "vorname": "First name",
   "nachname": "Last name",
-  "geburtsdatum": "Birth date YYYY-MM-DD (GERMAN FORMAT: DD.MM.YYYY → convert to YYYY-MM-DD)",
+  "geburtsdatum": "🔴 Birth date YYYY-MM-DD (PDF shows DD.MM.YYYY - FIRST number is DAY! Example: 15.03.1985 → 1985-03-15)",
   "geburtsort": "Place of birth",
   "email": "Email address",
   "telefonnummer": "Phone number",
@@ -67,7 +87,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "hausnummer": "House number",
   "plz": "5-digit postal code",
   "ort": "City",
-  "wohnhaftSeit": "Living there since (YYYY-MM-DD)",
+  "wohnhaftSeit": "🔴 Living there since YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
   "wohnverhaeltnis": "EIGENTUM/MIETE/ELTERN",
   "monatlicheKaltmiete": Monthly rent (if renting),
 
@@ -79,14 +99,14 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "arbeitgeber": "Employer name",
   "beschaeftigungsart": "ANGESTELLTER/ARBEITER/BEAMTER/SELBSTSTAENDIGER/FREIBERUFLER/RENTNER/ARBEITSLOSER/HAUSHALTENDE_PERSON",
   "beruf": "Occupation/profession",
-  "beschaeftigtSeit": "Employed since (YYYY-MM-DD)",
+  "beschaeftigtSeit": "🔴 Employed since YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
   "beschaeftigungsstatus": "UNBEFRISTET/BEFRISTET (only for ANGESTELLTER/ARBEITER)",
   "bruttoeinkommen": Gross monthly income,
   "nettoeinkommenMonatlich": Net monthly income,
   "anzahlGehaelterProJahr": "ZWOELF/DREIZEHN/VIERZEHN",
 
   // BLOCK-005: Rente & Riester (Situation after retirement)
-  "rentenbeginn": "🔴 CRITICAL: Planned retirement date YYYY-MM-DD (Look for 'Rentenbeginn', 'Renteneintritt', 'Ruhestand ab') - GERMAN DATE FORMAT DD.MM.YYYY",
+  "rentenbeginn": "🔴 CRITICAL: Planned retirement date YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY! Example: 01.07.2030 → 2030-07-01)",
   "gesetzlicheRenteMonatlich": Monthly statutory pension amount (Gesetzliche Rente),
   "privateRenteMonatlich": Monthly private pension amount (Private Rente, Riester, etc.),
   "sonstigesEinkommenNachRente": Other income after retirement,
@@ -97,7 +117,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "kinder": [
     {
       "name": "Child name",
-      "geburtsdatum": "Birth date YYYY-MM-DD",
+      "geburtsdatum": "🔴 Birth date YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
       "kindergeldWirdBezogen": true/false,
       "unterhalt": Monthly child support amount
     }
@@ -290,7 +310,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   // ==========================================
   "antragsteller2_vorname": "Second applicant first name",
   "antragsteller2_nachname": "Second applicant last name",
-  "antragsteller2_geburtsdatum": "Second applicant birth date YYYY-MM-DD (GERMAN DATE FORMAT)",
+  "antragsteller2_geburtsdatum": "🔴 Second applicant birth date YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
   "antragsteller2_geburtsort": "Second applicant place of birth",
   "antragsteller2_email": "Second applicant email",
   "antragsteller2_telefonnummer": "Second applicant phone",
@@ -301,17 +321,17 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "antragsteller2_hausnummer": "Second applicant house number",
   "antragsteller2_plz": "Second applicant postal code",
   "antragsteller2_ort": "Second applicant city",
-  "antragsteller2_wohnhaftSeit": "Second applicant living there since (GERMAN DATE FORMAT)",
+  "antragsteller2_wohnhaftSeit": "🔴 Second applicant living there since YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
   "antragsteller2_arbeitgeber": "Second applicant employer",
   "antragsteller2_beschaeftigungsart": "Second applicant employment type",
   "antragsteller2_beschaeftigungsstatus": "Second applicant employment status",
   "antragsteller2_beruf": "Second applicant profession",
-  "antragsteller2_beschaeftigtSeit": "Second applicant employed since (GERMAN DATE FORMAT)",
+  "antragsteller2_beschaeftigtSeit": "🔴 Second applicant employed since YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
   "antragsteller2_nettoeinkommenMonatlich": "Second applicant net monthly income",
   "antragsteller2_anzahlGehaelterProJahr": "Second applicant number of salaries per year",
 
   // BLOCK-005: Second applicant retirement
-  "antragsteller2_rentenbeginn": "🔴 Second applicant retirement date YYYY-MM-DD (GERMAN DATE FORMAT)",
+  "antragsteller2_rentenbeginn": "🔴 Second applicant retirement date YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
   "antragsteller2_gesetzlicheRenteMonatlich": "Second applicant statutory pension",
   "antragsteller2_privateRenteMonatlich": "Second applicant private pension",
   "antragsteller2_sonstigesEinkommenNachRente": "Second applicant other income after retirement",
@@ -323,22 +343,36 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "antragsteller2_kontoinhaber": "Second applicant account holder"
 }
 
-CRITICAL RULES:
+🚨🚨🚨 CRITICAL RULES 🚨🚨🚨
+
+⚠️⚠️⚠️ DATUM-WARNUNG NR. 1 ⚠️⚠️⚠️
+DIESES DOKUMENT VERWENDET DEUTSCHES DATUMSFORMAT!
+IM PDF: TAG.MONAT.JAHR (DD.MM.YYYY)
+AUSGABE: JAHR-MONAT-TAG (YYYY-MM-DD)
+DIE ERSTE ZAHL IST IMMER DER TAG!!!
+
+BEISPIELE (LESEN SIE DIESE NOCHMAL!!!):
+✅ "15.03.1985" → "1985-03-15" (15. März 1985)
+❌ "15.03.1985" → "1985-15-03" (FALSCH! Monat 15 gibt es nicht!)
+
+✅ "01.11.2020" → "2020-11-01" (1. November 2020)
+❌ "01.11.2020" → "2020-01-11" (FALSCH! Das wäre 11. Januar!)
+
+✅ "25.12.1990" → "1990-12-25" (25. Dezember 1990)
+❌ "25.12.1990" → "1990-25-12" (FALSCH! Monat 25 existiert nicht!)
+
+✅ "01.07.2030" → "2030-07-01" (1. Juli 2030)
+❌ "01.07.2030" → "2030-01-07" (FALSCH! Das wäre 7. Januar!)
+
+MERKSATZ: In Deutschland steht der TAG IMMER ZUERST, dann der MONAT, dann das JAHR!
+NIEMALS US-Format MM/DD/YYYY verwenden!
+
+OTHER CRITICAL RULES:
 - ONLY extract data that is EXPLICITLY present in the document
 - NEVER make up, guess, or infer data that is not clearly visible
 - Use null for ALL fields not present in the document
 - IMPORTANT: Check for BOTH applicants (Antragsteller 1 AND Antragsteller 2 / Mitantragsteller)
 - If second applicant exists, extract ALL their data with "antragsteller2_" prefix
-
-🔴 DATE FORMAT RULES (MOST IMPORTANT!):
-- German dates are DD.MM.YYYY or DD/MM/YYYY format (e.g., 25.12.1990 or 25/12/1990)
-- You MUST convert to YYYY-MM-DD format (e.g., 1990-12-25)
-- NEVER use MM/DD/YYYY (US format) - this is WRONG for German documents!
-- Example conversions:
-  * "15.03.1985" → "1985-03-15" (NOT "1985-15-03"!)
-  * "01.11.2020" → "2020-11-01" (NOT "2020-01-11"!)
-  * "25.12.1990" → "1990-12-25" (NOT "1990-25-12"!)
-
 - Convert ALL numbers to numeric values (remove €, commas, dots for thousands)
   * Examples: "1.500,50 €" → 1500.50, "50.000" → 50000
 - For arrays (kinder, bausparvertraege, lebensversicherungen, ratenkredite, privatdarlehen, bestehendeImmobilien), create array if multiple entries exist
@@ -350,10 +384,11 @@ CRITICAL RULES:
 🔴 EXTRA ATTENTION REQUIRED FOR:
 - Steuer-ID (Tax ID) - 11-digit number
 - IBAN - bank account number
-- Rentenbeginn - retirement date
+- Rentenbeginn - retirement date (REMEMBER: DD.MM.YYYY → YYYY-MM-DD!!!)
+- Geburtsdatum - birth date (REMEMBER: DD.MM.YYYY → YYYY-MM-DD!!!)
 - Familienstand - check for checkboxes or written status
 - Sonstige Verbindlichkeiten - other liabilities
-- All dates must be DD.MM.YYYY → YYYY-MM-DD`,
+- ALL DATES: DD.MM.YYYY (PDF) → YYYY-MM-DD (Output) - FIRST NUMBER = DAY!`,
             },
           ],
         },
