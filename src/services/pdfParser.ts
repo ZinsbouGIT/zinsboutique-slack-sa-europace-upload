@@ -160,6 +160,9 @@ export interface SelbstauskunftData {
     laufzeitende?: string;
   }>;
 
+  // Other Liabilities
+  sonstigeVerbindlichkeitRateMonatlich?: number;
+
   // Existing Financial Obligations (old format for backwards compatibility)
   bestehendeKredite?: Array<{
     kreditart?: string;
