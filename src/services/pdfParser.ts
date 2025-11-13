@@ -1,5 +1,5 @@
-import pdfParse from 'pdf-parse';
 import { logger } from '../utils/logger';
+const pdfParse = require('pdf-parse');
 
 export interface SelbstauskunftData {
   // Personal Information
