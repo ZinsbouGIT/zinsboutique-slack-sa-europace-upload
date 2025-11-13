@@ -19,6 +19,13 @@ export async function handleFileUpload(
   });
 
   try {
+    // Determine mode for display
+    const mode = config.europace.testMode ? 'TEST_MODUS' : 'ECHT_GESCHAEFT';
+    const modeEmoji = config.europace.testMode ? '🧪' : '🏭';
+    const modeDescription = config.europace.testMode
+      ? 'This is test data, not real business'
+      : 'Real production data';
+
     // Send initial acknowledgment
     const ackMessage = await client.chat.postMessage({
       channel: config.slack.channelId,
@@ -33,7 +40,7 @@ export async function handleFileUpload(
     await client.chat.update({
       channel: config.slack.channelId,
       ts: ackMessage.ts!,
-      text: `🔄 Processing PDF: *${name}*\n✅ Downloaded\n🧠 Extracting data with AI...\n⏳ Uploading to Europace (TEST_MODUS)...`,
+      text: `🔄 Processing PDF: *${name}*\n✅ Downloaded\n🧠 Extracting data with AI...\n⏳ Uploading to Europace (${mode})...`,
     });
 
     // Process upload to Europace (this handles everything)
@@ -55,7 +62,7 @@ export async function handleFileUpload(
       channel: config.slack.channelId,
       ts: ackMessage.ts!,
       text: [
-        `✅ *Successfully Uploaded to Europace (TEST_MODUS)*`,
+        `✅ *Successfully Uploaded to Europace (${mode})*`,
         `📄 File: *${name}*`,
         ``,
         `*Europace Response:*`,
@@ -76,7 +83,7 @@ export async function handleFileUpload(
         `💵 Purchase Price: ${extractedData.kaufpreis ? `€${extractedData.kaufpreis.toLocaleString()}` : 'N/A'}`,
         `💎 Equity: ${extractedData.eigenkapital ? `€${extractedData.eigenkapital.toLocaleString()}` : 'N/A'}`,
         ``,
-        `🧪 *Mode: TEST_MODUS* - This is test data, not real business`,
+        `${modeEmoji} *Mode: ${mode}* - ${modeDescription}`,
       ].join('\n'),
     });
 
