@@ -78,7 +78,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "geburtsort": "Place of birth",
   "email": "Email address",
   "telefonnummer": "Phone number",
-  "familienstand": "LEDIG/VERHEIRATET/GESCHIEDEN/VERWITWET/EINGETRAGENE_LEBENSPARTNERSCHAFT (Look for checkboxes or written text)",
+  "familienstand": "🔴 CRITICAL: LEDIG/VERHEIRATET/GESCHIEDEN/VERWITWET/EINGETRAGENE_LEBENSPARTNERSCHAFT - Look VERY CAREFULLY at which checkbox is MARKED (✓ or X). If unmarried/single, it is LEDIG, NOT VERHEIRATET!",
   "staatsangehoerigkeit": "Nationality (DE/AT/CH/etc - ISO 3166-1 alpha-2)",
   "steuerId": "🔴 CRITICAL: Tax ID / Steuer-ID / Steueridentifikationsnummer (11-digit number)",
 
@@ -87,7 +87,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "hausnummer": "House number",
   "plz": "5-digit postal code",
   "ort": "City",
-  "wohnhaftSeit": "🔴 Living there since YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
+  "wohnhaftSeit": "🔴 Living there since YYYY-MM-DD (PDF shows DD.MM.YYYY - FIRST number is DAY! Example: 15.08.2010 → 2010-08-15)",
   "wohnverhaeltnis": "EIGENTUM/MIETE/ELTERN",
   "monatlicheKaltmiete": Monthly rent (if renting),
 
@@ -99,7 +99,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "arbeitgeber": "Employer name",
   "beschaeftigungsart": "ANGESTELLTER/ARBEITER/BEAMTER/SELBSTSTAENDIGER/FREIBERUFLER/RENTNER/ARBEITSLOSER/HAUSHALTENDE_PERSON",
   "beruf": "Occupation/profession",
-  "beschaeftigtSeit": "🔴 Employed since YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
+  "beschaeftigtSeit": "🔴 CRITICAL: Employed since YYYY-MM-DD (PDF shows DD.MM.YYYY - FIRST number is DAY! Example: 01.07.2023 means 1st of JULY → 2023-07-01, NOT January!)",
   "beschaeftigungsstatus": "UNBEFRISTET/BEFRISTET (only for ANGESTELLTER/ARBEITER)",
   "bruttoeinkommen": Gross monthly income,
   "nettoeinkommenMonatlich": Net monthly income,
@@ -117,7 +117,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "kinder": [
     {
       "name": "Child name",
-      "geburtsdatum": "🔴 Birth date YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
+      "geburtsdatum": "🔴 Child birth date YYYY-MM-DD (PDF shows DD.MM.YYYY - FIRST number is DAY! Example: 15.03.2010 → 2010-03-15)",
       "kindergeldWirdBezogen": true/false,
       "unterhalt": Monthly child support amount
     }
@@ -310,28 +310,28 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   // ==========================================
   "antragsteller2_vorname": "Second applicant first name",
   "antragsteller2_nachname": "Second applicant last name",
-  "antragsteller2_geburtsdatum": "🔴 Second applicant birth date YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
+  "antragsteller2_geburtsdatum": "🔴 CRITICAL: Second applicant birth date YYYY-MM-DD (PDF shows DD.MM.YYYY - FIRST number is DAY! Example: 15.03.1985 → 1985-03-15)",
   "antragsteller2_geburtsort": "Second applicant place of birth",
   "antragsteller2_email": "Second applicant email",
   "antragsteller2_telefonnummer": "Second applicant phone",
-  "antragsteller2_familienstand": "Second applicant marital status: LEDIG/VERHEIRATET/GESCHIEDEN/VERWITWET/EINGETRAGENE_LEBENSPARTNERSCHAFT",
+  "antragsteller2_familienstand": "🔴 CRITICAL: Second applicant marital status: LEDIG/VERHEIRATET/GESCHIEDEN/VERWITWET/EINGETRAGENE_LEBENSPARTNERSCHAFT - Look VERY CAREFULLY at which checkbox is MARKED (✓ or X). If unmarried/single, it is LEDIG, NOT VERHEIRATET!",
   "antragsteller2_staatsangehoerigkeit": "Second applicant nationality",
   "antragsteller2_steuerId": "🔴 CRITICAL: Second applicant Tax ID / Steuer-ID (11-digit number)",
   "antragsteller2_strasse": "Second applicant street (or same as applicant 1)",
   "antragsteller2_hausnummer": "Second applicant house number",
   "antragsteller2_plz": "Second applicant postal code",
   "antragsteller2_ort": "Second applicant city",
-  "antragsteller2_wohnhaftSeit": "🔴 Second applicant living there since YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
+  "antragsteller2_wohnhaftSeit": "🔴 Second applicant living there since YYYY-MM-DD (PDF shows DD.MM.YYYY - FIRST number is DAY! Example: 15.08.2010 → 2010-08-15)",
   "antragsteller2_arbeitgeber": "Second applicant employer",
   "antragsteller2_beschaeftigungsart": "Second applicant employment type",
   "antragsteller2_beschaeftigungsstatus": "Second applicant employment status",
   "antragsteller2_beruf": "Second applicant profession",
-  "antragsteller2_beschaeftigtSeit": "🔴 Second applicant employed since YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
+  "antragsteller2_beschaeftigtSeit": "🔴 CRITICAL: Second applicant employed since YYYY-MM-DD (PDF shows DD.MM.YYYY - FIRST number is DAY! Example: 01.07.2023 means 1st of JULY → 2023-07-01, NOT January!)",
   "antragsteller2_nettoeinkommenMonatlich": "Second applicant net monthly income",
   "antragsteller2_anzahlGehaelterProJahr": "Second applicant number of salaries per year",
 
   // BLOCK-005: Second applicant retirement
-  "antragsteller2_rentenbeginn": "🔴 Second applicant retirement date YYYY-MM-DD (PDF: DD.MM.YYYY, FIRST=DAY!)",
+  "antragsteller2_rentenbeginn": "🔴 CRITICAL: Second applicant planned retirement date YYYY-MM-DD (PDF shows DD.MM.YYYY - FIRST number is DAY! Example: 01.07.2030 → 2030-07-01)",
   "antragsteller2_gesetzlicheRenteMonatlich": "Second applicant statutory pension",
   "antragsteller2_privateRenteMonatlich": "Second applicant private pension",
   "antragsteller2_sonstigesEinkommenNachRente": "Second applicant other income after retirement",
