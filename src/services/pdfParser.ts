@@ -11,6 +11,7 @@ export interface SelbstauskunftData {
   geburtsort?: string;
   email?: string;
   telefonnummer?: string;
+  familienstand_reasoning?: string; // Chain of thought: What AI sees for each checkbox
   familienstand?: string; // LEDIG, VERHEIRATET, GESCHIEDEN, VERWITWET
   staatsangehoerigkeit?: string;
   anzahlKinder?: number;
@@ -44,6 +45,7 @@ export interface SelbstauskunftData {
   antragsteller2_geburtsort?: string;
   antragsteller2_email?: string;
   antragsteller2_telefonnummer?: string;
+  antragsteller2_familienstand_reasoning?: string; // Chain of thought for Antragsteller 2
   antragsteller2_familienstand?: string;
   antragsteller2_staatsangehoerigkeit?: string;
   antragsteller2_strasse?: string;
