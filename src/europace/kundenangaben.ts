@@ -146,6 +146,31 @@ export class KundenangabenClient {
   }
 
   /**
+   * Get complete Kundenangaben payload for a Vorgang
+   */
+  async getKundenangaben(vorgangsnummer: string): Promise<any> {
+    try {
+      logger.info('Fetching Kundenangaben from Europace', { vorgangsnummer });
+
+      const response = await this.client.get(
+        `/kundenangaben/vorgaenge/${vorgangsnummer}`
+      );
+
+      logger.info('Kundenangaben retrieved successfully', { vorgangsnummer });
+
+      return response.data;
+    } catch (error) {
+      logger.error('Failed to get Kundenangaben', {
+        vorgangsnummer,
+        error: error instanceof Error ? error.message : String(error),
+        status: axios.isAxiosError(error) ? error.response?.status : undefined,
+        data: axios.isAxiosError(error) ? error.response?.data : undefined,
+      });
+      throw new Error('Failed to get Kundenangaben from Europace');
+    }
+  }
+
+  /**
    * Update Vorgang name
    * Must be called after Vorgang creation to set a custom name
    */
