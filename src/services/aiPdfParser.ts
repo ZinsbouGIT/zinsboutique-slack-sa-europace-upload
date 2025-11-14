@@ -78,7 +78,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "geburtsort": "Place of birth",
   "email": "Email address",
   "telefonnummer": "Phone number",
-  "familienstand": "🔴 CRITICAL: LEDIG/VERHEIRATET/GESCHIEDEN/VERWITWET/EINGETRAGENE_LEBENSPARTNERSCHAFT - Look VERY CAREFULLY at which checkbox is MARKED (✓ or X). If unmarried/single, it is LEDIG, NOT VERHEIRATET!",
+  "familienstand": "🔴🔴🔴 ULTRA CRITICAL - LOOK AT THE VISUAL MARKS: Marital status. You MUST identify which option has a FILLED/MARKED checkbox. Visual indicators: FILLED CIRCLE (⚫/●) or CHECKMARK (✓/X) = SELECTED. EMPTY CIRCLE (○/☐) = NOT selected. Options: LEDIG (single/unmarried) | VERHEIRATET (married) | GESCHIEDEN (divorced) | VERWITWET (widowed) | EINGETRAGENE_LEBENSPARTNERSCHAFT (civil partnership). DO NOT default to VERHEIRATET! If you see ⚫ next to 'Ledig', output 'LEDIG'. If you see ☐ next to 'Verheiratet' (empty), DO NOT output VERHEIRATET!",
   "staatsangehoerigkeit": "Nationality (DE/AT/CH/etc - ISO 3166-1 alpha-2)",
   "steuerId": "🔴 CRITICAL: Tax ID / Steuer-ID / Steueridentifikationsnummer (11-digit number)",
 
@@ -314,7 +314,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "antragsteller2_geburtsort": "Second applicant place of birth",
   "antragsteller2_email": "Second applicant email",
   "antragsteller2_telefonnummer": "Second applicant phone",
-  "antragsteller2_familienstand": "🔴 CRITICAL: Second applicant marital status: LEDIG/VERHEIRATET/GESCHIEDEN/VERWITWET/EINGETRAGENE_LEBENSPARTNERSCHAFT - Look VERY CAREFULLY at which checkbox is MARKED (✓ or X). If unmarried/single, it is LEDIG, NOT VERHEIRATET!",
+  "antragsteller2_familienstand": "🔴🔴🔴 ULTRA CRITICAL - LOOK AT THE VISUAL MARKS: Second applicant marital status. You MUST identify which option has a FILLED/MARKED checkbox. Visual indicators: FILLED CIRCLE (⚫/●) or CHECKMARK (✓/X) = SELECTED. EMPTY CIRCLE (○/☐) = NOT selected. Options: LEDIG (single/unmarried) | VERHEIRATET (married) | GESCHIEDEN (divorced) | VERWITWET (widowed) | EINGETRAGENE_LEBENSPARTNERSCHAFT (civil partnership). DO NOT default to VERHEIRATET! If you see ⚫ next to 'Ledig', output 'LEDIG'. If you see ☐ next to 'Verheiratet' (empty), DO NOT output VERHEIRATET!",
   "antragsteller2_staatsangehoerigkeit": "Second applicant nationality",
   "antragsteller2_steuerId": "🔴 CRITICAL: Second applicant Tax ID / Steuer-ID (11-digit number)",
   "antragsteller2_strasse": "Second applicant street (or same as applicant 1)",
@@ -386,7 +386,7 @@ OTHER CRITICAL RULES:
 - IBAN - bank account number
 - Rentenbeginn - retirement date (REMEMBER: DD.MM.YYYY → YYYY-MM-DD!!!)
 - Geburtsdatum - birth date (REMEMBER: DD.MM.YYYY → YYYY-MM-DD!!!)
-- Familienstand - check for checkboxes or written status
+- Familienstand - CRITICAL: Look for FILLED/MARKED circles (⚫) or checkmarks (✓), NOT empty circles (○/☐). Do NOT assume VERHEIRATET!
 - Sonstige Verbindlichkeiten - other liabilities
 - ALL DATES: DD.MM.YYYY (PDF) → YYYY-MM-DD (Output) - FIRST NUMBER = DAY!`,
             },
