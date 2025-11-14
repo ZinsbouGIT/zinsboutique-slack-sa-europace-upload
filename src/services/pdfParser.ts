@@ -287,7 +287,6 @@ export interface SelbstauskunftData {
   kaufpreis?: number;
   eigenkapital?: number;
   sparguthaben?: number;
-  wertpapiere?: number;
   finanzierungszweck?: string;
   darlehenswunsch?: number;
   laufzeitJahre?: number;
