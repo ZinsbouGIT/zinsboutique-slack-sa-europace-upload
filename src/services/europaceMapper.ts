@@ -110,13 +110,18 @@ export function mapToEuropacePayload(extractedData: SelbstauskunftData) {
       }),
       // IMPORTANT: familienstand has @type discriminator
       ...(extractedData.familienstand && {
-        familienstand: {
-          '@type': mapFamilienstand(extractedData.familienstand) || 'LEDIG',
-          // Add guetertrennungVereinbart only for VERHEIRATET or EINGETRAGENE_LEBENSPARTNERSCHAFT
-          ...(mapFamilienstand(extractedData.familienstand) === 'VERHEIRATET' && {
-            guetertrennungVereinbart: false,
-          }),
-        },
+        familienstand: (() => {
+          const extracted = extractedData.familienstand;
+          const mapped = mapFamilienstand(extracted);
+          console.log(`[DEBUG FAMILIENSTAND] Extracted: "${extracted}" → Mapped: "${mapped}"`);
+          return {
+            '@type': mapped || 'LEDIG',
+            // Add guetertrennungVereinbart only for VERHEIRATET or EINGETRAGENE_LEBENSPARTNERSCHAFT
+            ...(mapped === 'VERHEIRATET' && {
+              guetertrennungVereinbart: false,
+            }),
+          };
+        })(),
       }),
     },
 

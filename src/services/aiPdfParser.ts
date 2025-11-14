@@ -518,6 +518,8 @@ OTHER CRITICAL RULES:
       extractedFields: Object.keys(data).filter(k => data[k as keyof SelbstauskunftData] !== null && data[k as keyof SelbstauskunftData] !== undefined),
       vorname: data.vorname,
       nachname: data.nachname,
+      familienstand: data.familienstand, // DEBUG: Check what AI extracts
+      antragsteller2_familienstand: data.antragsteller2_familienstand, // DEBUG: Check Antragsteller 2
     });
 
     return data;
