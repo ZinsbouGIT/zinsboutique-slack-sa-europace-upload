@@ -501,11 +501,23 @@ OTHER CRITICAL RULES:
     // Parse the JSON response
     let data: SelbstauskunftData;
     try {
-      // Remove any markdown code blocks if present
-      const cleanedJson = responseText
+      // Remove any markdown code blocks and text before/after JSON
+      let cleanedJson = responseText
         .replace(/```json\n?/g, '')
         .replace(/```\n?/g, '')
         .trim();
+
+      // Remove any text before the first {
+      const firstBrace = cleanedJson.indexOf('{');
+      if (firstBrace > 0) {
+        cleanedJson = cleanedJson.substring(firstBrace);
+      }
+
+      // Remove any text after the last }
+      const lastBrace = cleanedJson.lastIndexOf('}');
+      if (lastBrace > 0 && lastBrace < cleanedJson.length - 1) {
+        cleanedJson = cleanedJson.substring(0, lastBrace + 1);
+      }
 
       data = JSON.parse(cleanedJson);
     } catch (parseError) {
