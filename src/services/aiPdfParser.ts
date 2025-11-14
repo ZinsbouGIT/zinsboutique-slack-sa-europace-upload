@@ -67,44 +67,76 @@ This applies to ANY field where multiple options are presented with visual indic
 
 UNIVERSAL EXTRACTION PROCESS FOR ALL CHECKBOX FIELDS:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-STEP 1: Identify VISUAL markers:
-  - SELECTED/MARKED: Filled circle (⚫/●), filled checkbox (☑), checkmark (✓), X mark (✗/✕)
-  - NOT SELECTED: Empty circle (○), empty checkbox (☐), no mark
+STEP 1: EXAMINE ALL OPTIONS IN THE GROUP FIRST (DON'T STOP AT THE FIRST ONE!)
+  Look at EVERY checkbox/circle in that section before making any decision.
 
-STEP 2: Read the GERMAN TEXT next to the MARKED/FILLED indicator
+STEP 2: IDENTIFY VISUAL PATTERNS - Compare darkness/fill:
+  - SELECTED/MARKED patterns:
+    • Solid black filled circle (⚫/●) - completely dark inside
+    • Filled checkbox (☑/■) - completely dark/shaded
+    • Checkmark (✓) or X mark (✗/✕) inside
 
-STEP 3: Output the corresponding enum value or text from the marked option
+  - NOT SELECTED patterns:
+    • Dotted outline circle (⚬) - only outline visible, empty inside
+    • Empty circle outline (○) - thin line circle, white inside
+    • Empty checkbox (☐) - outline only, white inside
+    • No mark at all
 
-STEP 4: If NO option is marked, output null (do NOT guess!)
+STEP 3: COMPARE ALL OPTIONS - Which one is DARKEST/MOST FILLED?
+  - Look for the ONE option that is SOLID BLACK vs all others that are DOTTED/OUTLINE
+  - The filled/solid one = SELECTED
+  - All dotted/outline ones = NOT SELECTED
+
+STEP 4: Read the GERMAN TEXT next to the DARKEST/FILLED indicator only
+
+STEP 5: Output the corresponding enum value from that marked option
+
+STEP 6: If ALL options look the same (all dotted/all empty), output null (do NOT guess!)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-EXAMPLE 1 - Familienstand (Marital Status):
-If the PDF shows:
-  ○ Verheiratet    (empty circle = NOT selected)
-  ⚫ Ledig          (filled circle = SELECTED) ← THIS ONE!
-  ○ Geschieden     (empty circle = NOT selected)
+EXAMPLE 1 - Familienstand (CRITICAL - Common failure point!):
+⚠️ WARNING: "Verheiratet" is usually listed FIRST, but that does NOT mean it's selected!
 
-Then you MUST output: "familienstand": "LEDIG" (because Ledig has the filled circle!)
+If the PDF shows this EXACT pattern:
+  ⚬ Verheiratet           (dotted outline = NOT selected) ← Listed first, but EMPTY!
+    ⚬ mit Gütertrennung   (sub-option, ignore if Verheiratet not selected)
+    ⚬ ohne Gütertrennung  (sub-option, ignore if Verheiratet not selected)
+  ⚫ Ledig                 (SOLID BLACK = SELECTED) ← THIS ONE! Dark filled circle!
+  ⚬ Getrennt lebend       (dotted outline = NOT selected)
+  ⚬ Geschieden            (dotted outline = NOT selected)
+  ⚬ Lebenspartnerschaft   (dotted outline = NOT selected)
+  ⚬ Verwitwet             (dotted outline = NOT selected)
+
+You MUST examine ALL 6 main options and find which ONE is SOLID BLACK (⚫).
+In this case: ONLY "Ledig" has the solid black circle → Output "LEDIG"
+DO NOT output "VERHEIRATET" just because it's first! Look at the VISUAL fill!
+
+Then you MUST output: "familienstand": "LEDIG" (because ONLY Ledig is solid black!)
 
 EXAMPLE 2 - Wohnverhältnis (Living Situation):
 If the PDF shows:
-  ☐ Eigentum       (empty = NOT selected)
-  ☑ Miete          (filled = SELECTED) ← THIS ONE!
-  ☐ Eltern         (empty = NOT selected)
+  ☐ Eigentum       (empty outline = NOT selected)
+  ☑ Miete          (filled/checkmark = SELECTED) ← THIS ONE! Dark inside!
+  ☐ Eltern         (empty outline = NOT selected)
 
 Then you MUST output: "wohnverhaeltnis": "MIETE"
 
 🚨 CRITICAL RULES FOR ALL CHECKBOX FIELDS:
+• EXAMINE ALL OPTIONS FIRST - Don't stop at the first option you see!
+• COMPARE VISUAL DARKNESS - Dotted outline (⚬) vs Solid black (⚫) vs Empty (○)
 • DO NOT assume values based on what is "typical" or "common"
 • DO NOT extract the first option just because it's listed first
-• DO NOT extract text that has an EMPTY checkbox/circle
-• ONLY extract the option with a FILLED/MARKED visual indicator
-• Look at the VISUAL indicator FIRST, THEN read the text next to it
+• DO NOT extract text that has a DOTTED/EMPTY checkbox/circle (⚬/○/☐)
+• DO NOT assume "Verheiratet" is selected just because it's listed first!
+• ONLY extract the option with a SOLID BLACK/FILLED visual indicator (⚫/●/☑/✓)
+• Look at the VISUAL indicator FIRST (dark vs light), THEN read the text next to it
+• Use the "one dark circle among many light circles" test
 • If multiple options are marked, extract the first marked option
-• If NO option is marked, return null for that field
+• If NO option is marked (all look the same), return null for that field
 
 This pattern applies to ALL fields including (but not limited to):
-- Familienstand, Wohnverhältnis, Beschäftigungsart, Nutzungsart, Objektart, etc.
+- Familienstand (⚠️ ESPECIALLY THIS ONE - Verheiratet is first but often NOT selected!)
+- Wohnverhältnis, Beschäftigungsart, Nutzungsart, Objektart, etc.
 - ANY field where you see multiple options with checkboxes or radio buttons!
 
 Analyze this Selbstauskunft (self-disclosure) form and extract ALL available information for BOTH applicants if present.
@@ -125,7 +157,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "geburtsort": "Place of birth",
   "email": "Email address",
   "telefonnummer": "Phone number",
-  "familienstand": "🔴🔴🔴 ULTRA CRITICAL - STEP BY STEP PROCESS: This is a multiple choice field with checkboxes. STEP 1: Look at the VISUAL checkbox indicators next to each option: 'Verheiratet', 'Ledig', 'Getrennt lebend', 'Geschieden', 'Lebenspartnerschaft', 'Verwitwet'. STEP 2: Identify which checkbox is FILLED/MARKED (●/⚫/✓/X = selected) vs EMPTY (○/☐ = not selected). STEP 3: Read the German word next to the FILLED checkbox. STEP 4: Output the corresponding value: If marked option is 'Ledig' → output 'LEDIG' | If 'Verheiratet' → output 'VERHEIRATET' | If 'Geschieden' → output 'GESCHIEDEN' | If 'Verwitwet' → output 'VERWITWET' | If 'Getrennt lebend' → output 'GETRENNT_LEBEND' | If 'Lebenspartnerschaft' → output 'EINGETRAGENE_LEBENSPARTNERSCHAFT'. CRITICAL: Only extract the option that has a FILLED/MARKED checkbox, NOT the option with an empty checkbox!",
+  "familienstand": "🔴🔴🔴 ULTRA CRITICAL - VISUAL COMPARISON REQUIRED! ⚠️ Common AI failure point! STEP 1: Find the 'Familienstand' section. STEP 2: You will see 6+ options arranged vertically (Verheiratet, Ledig, Getrennt lebend, Geschieden, Lebenspartnerschaft, Verwitwet). STEP 3: EXAMINE THE CIRCLE NEXT TO EACH OPTION - Do NOT stop at Verheiratet just because it's first! STEP 4: VISUAL COMPARISON - Which circle is DIFFERENT from the others? Look for: DOTTED outline circles (⚬) = NOT selected | SOLID BLACK filled circles (⚫) = SELECTED. STEP 5: Find the ONE option that has a SOLID BLACK circle while all others have DOTTED circles. STEP 6: Read ONLY the German text next to the SOLID BLACK circle. STEP 7: Output the corresponding value: If 'Ledig' has solid black → 'LEDIG' | If 'Verheiratet' has solid black → 'VERHEIRATET' | If 'Geschieden' has solid black → 'GESCHIEDEN' | If 'Verwitwet' has solid black → 'VERWITWET' | If 'Getrennt lebend' has solid black → 'GETRENNT_LEBEND' | If 'Lebenspartnerschaft' has solid black → 'EINGETRAGENE_LEBENSPARTNERSCHAFT'. ⚠️ WARNING: Verheiratet is usually listed FIRST but is often NOT selected! Look at ALL circles and compare darkness! Ignore sub-options like 'mit/ohne Gütertrennung' unless Verheiratet itself has a solid black circle!",
   "staatsangehoerigkeit": "Nationality (DE/AT/CH/etc - ISO 3166-1 alpha-2)",
   "steuerId": "🔴 CRITICAL: Tax ID / Steuer-ID / Steueridentifikationsnummer (11-digit number)",
 
@@ -361,7 +393,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "antragsteller2_geburtsort": "Second applicant place of birth",
   "antragsteller2_email": "Second applicant email",
   "antragsteller2_telefonnummer": "Second applicant phone",
-  "antragsteller2_familienstand": "🔴🔴🔴 ULTRA CRITICAL - STEP BY STEP PROCESS: This is a multiple choice field with checkboxes. STEP 1: Look at the VISUAL checkbox indicators next to each option: 'Verheiratet', 'Ledig', 'Getrennt lebend', 'Geschieden', 'Lebenspartnerschaft', 'Verwitwet'. STEP 2: Identify which checkbox is FILLED/MARKED (●/⚫/✓/X = selected) vs EMPTY (○/☐ = not selected). STEP 3: Read the German word next to the FILLED checkbox. STEP 4: Output the corresponding value: If marked option is 'Ledig' → output 'LEDIG' | If 'Verheiratet' → output 'VERHEIRATET' | If 'Geschieden' → output 'GESCHIEDEN' | If 'Verwitwet' → output 'VERWITWET' | If 'Getrennt lebend' → output 'GETRENNT_LEBEND' | If 'Lebenspartnerschaft' → output 'EINGETRAGENE_LEBENSPARTNERSCHAFT'. CRITICAL: Only extract the option that has a FILLED/MARKED checkbox, NOT the option with an empty checkbox!",
+  "antragsteller2_familienstand": "🔴🔴🔴 ULTRA CRITICAL - VISUAL COMPARISON REQUIRED! ⚠️ Common AI failure point! STEP 1: Find the 'Familienstand' section FOR ANTRAGSTELLER 2. STEP 2: You will see 6+ options arranged vertically (Verheiratet, Ledig, Getrennt lebend, Geschieden, Lebenspartnerschaft, Verwitwet). STEP 3: EXAMINE THE CIRCLE NEXT TO EACH OPTION - Do NOT stop at Verheiratet just because it's first! STEP 4: VISUAL COMPARISON - Which circle is DIFFERENT from the others? Look for: DOTTED outline circles (⚬) = NOT selected | SOLID BLACK filled circles (⚫) = SELECTED. STEP 5: Find the ONE option that has a SOLID BLACK circle while all others have DOTTED circles. STEP 6: Read ONLY the German text next to the SOLID BLACK circle. STEP 7: Output the corresponding value: If 'Ledig' has solid black → 'LEDIG' | If 'Verheiratet' has solid black → 'VERHEIRATET' | If 'Geschieden' has solid black → 'GESCHIEDEN' | If 'Verwitwet' has solid black → 'VERWITWET' | If 'Getrennt lebend' has solid black → 'GETRENNT_LEBEND' | If 'Lebenspartnerschaft' has solid black → 'EINGETRAGENE_LEBENSPARTNERSCHAFT'. ⚠️ WARNING: Verheiratet is usually listed FIRST but is often NOT selected! Look at ALL circles and compare darkness! Ignore sub-options like 'mit/ohne Gütertrennung' unless Verheiratet itself has a solid black circle!",
   "antragsteller2_staatsangehoerigkeit": "Second applicant nationality",
   "antragsteller2_steuerId": "🔴 CRITICAL: Second applicant Tax ID / Steuer-ID (11-digit number)",
   "antragsteller2_strasse": "Second applicant street (or same as applicant 1)",
@@ -433,7 +465,22 @@ OTHER CRITICAL RULES:
 - IBAN - bank account number
 - Rentenbeginn - retirement date (REMEMBER: DD.MM.YYYY → YYYY-MM-DD!!!)
 - Geburtsdatum - birth date (REMEMBER: DD.MM.YYYY → YYYY-MM-DD!!!)
-- Familienstand - ULTRA CRITICAL EXAMPLE: If PDF shows "○ Verheiratet" (empty) and "⚫ Ledig" (filled), you MUST output "LEDIG" because Ledig has the filled circle! Look for the filled/marked checkbox, read the German word next to it, then output the corresponding enum value. NEVER assume VERHEIRATET if it's not marked!
+- Familienstand - ⚠️⚠️⚠️ MOST CRITICAL FIELD - HIGHEST FAILURE RATE! ⚠️⚠️⚠️
+  REAL EXAMPLE FROM TYPICAL PDF:
+    ⚬ Verheiratet           ← DOTTED circle (first option, but NOT selected!)
+      ⚬ mit Gütertrennung   ← Sub-option, ignore
+      ⚬ ohne Gütertrennung  ← Sub-option, ignore
+    ⚫ Ledig                 ← SOLID BLACK circle (THIS IS THE SELECTED ONE!)
+    ⚬ Getrennt lebend       ← DOTTED circle (not selected)
+    ⚬ Geschieden            ← DOTTED circle (not selected)
+    ⚬ Lebenspartnerschaft   ← DOTTED circle (not selected)
+    ⚬ Verwitwet             ← DOTTED circle (not selected)
+
+  CORRECT OUTPUT: "LEDIG" (because ONLY Ledig has solid black ⚫, all others are dotted ⚬)
+  WRONG: Do NOT output "VERHEIRATET" just because it appears first!
+
+  PROCESS: Compare ALL circles → Find the ONE that is SOLID BLACK vs DOTTED → Read text next to it → Output enum
+
 - Sonstige Verbindlichkeiten - other liabilities
 - ALL DATES: DD.MM.YYYY (PDF) → YYYY-MM-DD (Output) - FIRST NUMBER = DAY!`,
             },
