@@ -60,21 +60,52 @@ DATUM-KONVERTIERUNGS-REGELN (LESEN SIE DIESE 3X!!!):
 
 MERKE: Bei deutschen Daten steht der TAG IMMER ZUERST!
 
-🔴🔴🔴 CHECKBOX RECOGNITION - READ CAREFULLY! 🔴🔴🔴
+🔴🔴🔴 CHECKBOX & MULTIPLE CHOICE RECOGNITION - APPLIES TO ALL FIELDS! 🔴🔴🔴
 
-Many fields use VISUAL CHECKBOXES (multiple choice). You MUST identify which option is SELECTED:
-- SELECTED/MARKED: Filled circle (⚫/●), checkmark (✓), X mark
-- NOT SELECTED: Empty circle (○/☐), no mark
+⚠️ CRITICAL: Many fields throughout this document use VISUAL CHECKBOXES or RADIO BUTTONS (multiple choice).
+This applies to ANY field where multiple options are presented with visual indicators!
 
-EXAMPLE - Familienstand (Marital Status):
+UNIVERSAL EXTRACTION PROCESS FOR ALL CHECKBOX FIELDS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STEP 1: Identify VISUAL markers:
+  - SELECTED/MARKED: Filled circle (⚫/●), filled checkbox (☑), checkmark (✓), X mark (✗/✕)
+  - NOT SELECTED: Empty circle (○), empty checkbox (☐), no mark
+
+STEP 2: Read the GERMAN TEXT next to the MARKED/FILLED indicator
+
+STEP 3: Output the corresponding enum value or text from the marked option
+
+STEP 4: If NO option is marked, output null (do NOT guess!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXAMPLE 1 - Familienstand (Marital Status):
 If the PDF shows:
   ○ Verheiratet    (empty circle = NOT selected)
-  ⚫ Ledig          (filled circle = SELECTED)
+  ⚫ Ledig          (filled circle = SELECTED) ← THIS ONE!
   ○ Geschieden     (empty circle = NOT selected)
 
 Then you MUST output: "familienstand": "LEDIG" (because Ledig has the filled circle!)
 
-DO NOT assume values! ONLY extract the option with the visual mark/selection!
+EXAMPLE 2 - Wohnverhältnis (Living Situation):
+If the PDF shows:
+  ☐ Eigentum       (empty = NOT selected)
+  ☑ Miete          (filled = SELECTED) ← THIS ONE!
+  ☐ Eltern         (empty = NOT selected)
+
+Then you MUST output: "wohnverhaeltnis": "MIETE"
+
+🚨 CRITICAL RULES FOR ALL CHECKBOX FIELDS:
+• DO NOT assume values based on what is "typical" or "common"
+• DO NOT extract the first option just because it's listed first
+• DO NOT extract text that has an EMPTY checkbox/circle
+• ONLY extract the option with a FILLED/MARKED visual indicator
+• Look at the VISUAL indicator FIRST, THEN read the text next to it
+• If multiple options are marked, extract the first marked option
+• If NO option is marked, return null for that field
+
+This pattern applies to ALL fields including (but not limited to):
+- Familienstand, Wohnverhältnis, Beschäftigungsart, Nutzungsart, Objektart, etc.
+- ANY field where you see multiple options with checkboxes or radio buttons!
 
 Analyze this Selbstauskunft (self-disclosure) form and extract ALL available information for BOTH applicants if present.
 
