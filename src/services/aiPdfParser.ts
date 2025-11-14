@@ -60,6 +60,22 @@ DATUM-KONVERTIERUNGS-REGELN (LESEN SIE DIESE 3X!!!):
 
 MERKE: Bei deutschen Daten steht der TAG IMMER ZUERST!
 
+🔴🔴🔴 CHECKBOX RECOGNITION - READ CAREFULLY! 🔴🔴🔴
+
+Many fields use VISUAL CHECKBOXES (multiple choice). You MUST identify which option is SELECTED:
+- SELECTED/MARKED: Filled circle (⚫/●), checkmark (✓), X mark
+- NOT SELECTED: Empty circle (○/☐), no mark
+
+EXAMPLE - Familienstand (Marital Status):
+If the PDF shows:
+  ○ Verheiratet    (empty circle = NOT selected)
+  ⚫ Ledig          (filled circle = SELECTED)
+  ○ Geschieden     (empty circle = NOT selected)
+
+Then you MUST output: "familienstand": "LEDIG" (because Ledig has the filled circle!)
+
+DO NOT assume values! ONLY extract the option with the visual mark/selection!
+
 Analyze this Selbstauskunft (self-disclosure) form and extract ALL available information for BOTH applicants if present.
 
 CRITICAL: Many PDFs contain TWO applicants:
@@ -78,7 +94,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "geburtsort": "Place of birth",
   "email": "Email address",
   "telefonnummer": "Phone number",
-  "familienstand": "🔴🔴🔴 ULTRA CRITICAL - LOOK AT THE VISUAL MARKS: Marital status. You MUST identify which option has a FILLED/MARKED checkbox. Visual indicators: FILLED CIRCLE (⚫/●) or CHECKMARK (✓/X) = SELECTED. EMPTY CIRCLE (○/☐) = NOT selected. Options: LEDIG (single/unmarried) | VERHEIRATET (married) | GESCHIEDEN (divorced) | VERWITWET (widowed) | EINGETRAGENE_LEBENSPARTNERSCHAFT (civil partnership). DO NOT default to VERHEIRATET! If you see ⚫ next to 'Ledig', output 'LEDIG'. If you see ☐ next to 'Verheiratet' (empty), DO NOT output VERHEIRATET!",
+  "familienstand": "🔴🔴🔴 ULTRA CRITICAL - STEP BY STEP PROCESS: This is a multiple choice field with checkboxes. STEP 1: Look at the VISUAL checkbox indicators next to each option: 'Verheiratet', 'Ledig', 'Getrennt lebend', 'Geschieden', 'Lebenspartnerschaft', 'Verwitwet'. STEP 2: Identify which checkbox is FILLED/MARKED (●/⚫/✓/X = selected) vs EMPTY (○/☐ = not selected). STEP 3: Read the German word next to the FILLED checkbox. STEP 4: Output the corresponding value: If marked option is 'Ledig' → output 'LEDIG' | If 'Verheiratet' → output 'VERHEIRATET' | If 'Geschieden' → output 'GESCHIEDEN' | If 'Verwitwet' → output 'VERWITWET' | If 'Getrennt lebend' → output 'GETRENNT_LEBEND' | If 'Lebenspartnerschaft' → output 'EINGETRAGENE_LEBENSPARTNERSCHAFT'. CRITICAL: Only extract the option that has a FILLED/MARKED checkbox, NOT the option with an empty checkbox!",
   "staatsangehoerigkeit": "Nationality (DE/AT/CH/etc - ISO 3166-1 alpha-2)",
   "steuerId": "🔴 CRITICAL: Tax ID / Steuer-ID / Steueridentifikationsnummer (11-digit number)",
 
@@ -314,7 +330,7 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "antragsteller2_geburtsort": "Second applicant place of birth",
   "antragsteller2_email": "Second applicant email",
   "antragsteller2_telefonnummer": "Second applicant phone",
-  "antragsteller2_familienstand": "🔴🔴🔴 ULTRA CRITICAL - LOOK AT THE VISUAL MARKS: Second applicant marital status. You MUST identify which option has a FILLED/MARKED checkbox. Visual indicators: FILLED CIRCLE (⚫/●) or CHECKMARK (✓/X) = SELECTED. EMPTY CIRCLE (○/☐) = NOT selected. Options: LEDIG (single/unmarried) | VERHEIRATET (married) | GESCHIEDEN (divorced) | VERWITWET (widowed) | EINGETRAGENE_LEBENSPARTNERSCHAFT (civil partnership). DO NOT default to VERHEIRATET! If you see ⚫ next to 'Ledig', output 'LEDIG'. If you see ☐ next to 'Verheiratet' (empty), DO NOT output VERHEIRATET!",
+  "antragsteller2_familienstand": "🔴🔴🔴 ULTRA CRITICAL - STEP BY STEP PROCESS: This is a multiple choice field with checkboxes. STEP 1: Look at the VISUAL checkbox indicators next to each option: 'Verheiratet', 'Ledig', 'Getrennt lebend', 'Geschieden', 'Lebenspartnerschaft', 'Verwitwet'. STEP 2: Identify which checkbox is FILLED/MARKED (●/⚫/✓/X = selected) vs EMPTY (○/☐ = not selected). STEP 3: Read the German word next to the FILLED checkbox. STEP 4: Output the corresponding value: If marked option is 'Ledig' → output 'LEDIG' | If 'Verheiratet' → output 'VERHEIRATET' | If 'Geschieden' → output 'GESCHIEDEN' | If 'Verwitwet' → output 'VERWITWET' | If 'Getrennt lebend' → output 'GETRENNT_LEBEND' | If 'Lebenspartnerschaft' → output 'EINGETRAGENE_LEBENSPARTNERSCHAFT'. CRITICAL: Only extract the option that has a FILLED/MARKED checkbox, NOT the option with an empty checkbox!",
   "antragsteller2_staatsangehoerigkeit": "Second applicant nationality",
   "antragsteller2_steuerId": "🔴 CRITICAL: Second applicant Tax ID / Steuer-ID (11-digit number)",
   "antragsteller2_strasse": "Second applicant street (or same as applicant 1)",
@@ -386,7 +402,7 @@ OTHER CRITICAL RULES:
 - IBAN - bank account number
 - Rentenbeginn - retirement date (REMEMBER: DD.MM.YYYY → YYYY-MM-DD!!!)
 - Geburtsdatum - birth date (REMEMBER: DD.MM.YYYY → YYYY-MM-DD!!!)
-- Familienstand - CRITICAL: Look for FILLED/MARKED circles (⚫) or checkmarks (✓), NOT empty circles (○/☐). Do NOT assume VERHEIRATET!
+- Familienstand - ULTRA CRITICAL EXAMPLE: If PDF shows "○ Verheiratet" (empty) and "⚫ Ledig" (filled), you MUST output "LEDIG" because Ledig has the filled circle! Look for the filled/marked checkbox, read the German word next to it, then output the corresponding enum value. NEVER assume VERHEIRATET if it's not marked!
 - Sonstige Verbindlichkeiten - other liabilities
 - ALL DATES: DD.MM.YYYY (PDF) → YYYY-MM-DD (Output) - FIRST NUMBER = DAY!`,
             },
