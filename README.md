@@ -2,6 +2,13 @@
 
 **DSGVO-compliant Slack bot that extracts financial data from Selbstauskunft PDFs using Claude AI and automatically uploads structured data to Europace Kundenangaben API.**
 
+## 📚 Documentation
+
+- **[DEVELOPMENT.md](DEVELOPMENT.md)** - 🔧 **Start here!** Complete guide for working on, testing, and deploying updates
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - 🚀 Production server setup and deployment
+- **[ANTRAGSTELLER-MAPPING-COMPLETE.md](ANTRAGSTELLER-MAPPING-COMPLETE.md)** - 📋 Field mapping reference
+- **README.md** - ⬇️ You are here - Project overview and architecture
+
 ## Overview
 
 This bot monitors a Slack channel for Selbstauskunft PDF uploads, uses Claude AI to intelligently extract all financial data, and creates complete customer profiles in Europace with proper field mapping.

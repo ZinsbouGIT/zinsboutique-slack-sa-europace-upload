@@ -2,6 +2,16 @@
 
 Complete guide for deploying the ZinsBoutique Slack Bot to Digital Ocean for 24/7 operation.
 
+## 📚 Related Documentation
+
+- **[DEVELOPMENT.md](DEVELOPMENT.md)** - 🔧 Working on and updating the system
+- **[README.md](README.md)** - 📖 Project overview and architecture
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - ⬇️ You are here - Initial server setup
+
+**Note:** For updating an existing server, see [DEVELOPMENT.md - Deploying to Server](DEVELOPMENT.md#deploying-to-server)
+
+---
+
 ## Prerequisites
 
 - DigitalOcean account
@@ -290,12 +300,16 @@ pm2 stop zinsboutique-slack-bot
 
 ### Update Application
 
+**For detailed update procedures, see [DEVELOPMENT.md - Deploying to Server](DEVELOPMENT.md#deploying-to-server)**
+
+Quick reference:
 ```bash
 cd /opt/zinsboutique-slack-bot
 git pull origin main
 npm install
 npm run build
-pm2 restart zinsboutique-slack-bot
+pm2 restart 0  # or: pm2 restart zinsboutique-slack-bot
+pm2 logs 0 --lines 50  # Verify deployment
 ```
 
 ### Check Nginx Status
