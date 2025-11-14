@@ -361,17 +361,64 @@ export function mapToEuropacePayload(extractedData: SelbstauskunftData) {
   const haushalt: any = {
     kunden,
 
-    // BLOCK-006: kinderErfassung is at haushalt level with @type discriminator
+    // BLOCK-006: kinder is at haushalt level (direct array as per JL8Y5D payload)
     ...((extractedData.kinder && extractedData.kinder.length > 0) && {
-      kinderErfassung: {
-        '@type': 'VORHANDENE_KINDER',
-        kinder: extractedData.kinder.map((kind: any) => ({
-          ...(kind.name && { name: kind.name }),
-          ...(kind.geburtsdatum && { geburtsdatum: normalizeDate(kind.geburtsdatum) }),
-          ...(typeof kind.kindergeldWirdBezogen === 'boolean' && { kindergeldWirdBezogen: kind.kindergeldWirdBezogen }),
-          wohnhaftBeiAntragsteller: kind.wohnhaftBeiAntragsteller !== false, // default true if not specified
-        })),
-      },
+      kinder: extractedData.kinder.map((kind: any) => ({
+        ...(kind.name && { name: kind.name }),
+        ...(kind.geburtsdatum && { geburtsdatum: normalizeDate(kind.geburtsdatum) }),
+        ...(typeof kind.kindergeldWirdBezogen === 'boolean' && { kindergeldWirdBezogen: kind.kindergeldWirdBezogen }),
+      })),
+    }),
+
+    // BLOCK-011: bestehendeImmobilien (Existing Properties) - Direct array at haushalt level
+    ...((extractedData.bestehendeImmobilien && extractedData.bestehendeImmobilien.length > 0) && {
+      bestehendeImmobilien: extractedData.bestehendeImmobilien.map((immobilie: any) => ({
+        ...(immobilie.bezeichnung && { bezeichnung: immobilie.bezeichnung }),
+        ...(immobilie.adresse && {
+          adresse: {
+            ...(immobilie.adresse.strasse && { strasse: immobilie.adresse.strasse }),
+            ...(immobilie.adresse.hausnummer && { hausnummer: immobilie.adresse.hausnummer }),
+            ...(immobilie.adresse.postleitzahl && { postleitzahl: immobilie.adresse.postleitzahl }),
+            ...(immobilie.adresse.ort && { ort: immobilie.adresse.ort }),
+          },
+        }),
+        ...(immobilie.objektArt && { objektArt: immobilie.objektArt }),
+        ...(immobilie.baujahr && { baujahr: immobilie.baujahr }),
+        ...(immobilie.wohnflaeche && {
+          gebaeude: {
+            wohnflaeche: {
+              gesamtGroesse: parseGermanNumber(immobilie.wohnflaeche),
+              ...(immobilie.nutzungsArt && {
+                vermietungsInformationen: {
+                  nutzungsArt: immobilie.nutzungsArt,
+                  ...(immobilie.mieteinnahmenNettoKaltMonatlich && {
+                    mieteinnahmenNettoKaltMonatlich: parseGermanNumber(immobilie.mieteinnahmenNettoKaltMonatlich),
+                  }),
+                  ...(immobilie.vermieteteFlaeche && {
+                    vermieteteFlaeche: parseGermanNumber(immobilie.vermieteteFlaeche),
+                  }),
+                },
+              }),
+            },
+          },
+        }),
+        ...(immobilie.grundstuecksgroesse !== undefined && {
+          grundstueck: {
+            groesse: parseGermanNumber(immobilie.grundstuecksgroesse) || 0,
+          },
+        }),
+        ...(immobilie.verkehrswert && { verkehrswert: parseGermanNumber(immobilie.verkehrswert) }),
+        ...(immobilie.marktwert && { marktwert: parseGermanNumber(immobilie.marktwert) }),
+        ...(immobilie.bestehendeDarlehen && immobilie.bestehendeDarlehen.length > 0 && {
+          bestehendeDarlehen: immobilie.bestehendeDarlehen.map((darlehen: any) => ({
+            ...(darlehen.darlehensArt && { darlehensArt: darlehen.darlehensArt }),
+            ...(darlehen.restschuld && { aktuelleRestschuldWennNichtAbzuloesen: parseGermanNumber(darlehen.restschuld) }),
+            ...(darlehen.rateMonatlich && { rateMonatlich: parseGermanNumber(darlehen.rateMonatlich) }),
+            ...(darlehen.zinsBindungEndetAm && { zinsBindungEndetAm: normalizeDate(darlehen.zinsBindungEndetAm) }),
+            ...(darlehen.eingetrageneGrundschuld && { eingetrageneGrundschuld: parseGermanNumber(darlehen.eingetrageneGrundschuld) }),
+          })),
+        }),
+      })),
     }),
 
     // IMPORTANT: finanzielleSituation is at haushalt level

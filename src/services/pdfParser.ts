@@ -93,7 +93,28 @@ export interface SelbstauskunftData {
   bruttoeinkommen?: number;
   nettoeinkommenMonatlich?: number;
 
-  // Block 7: Assets (Vermögen)
+  // Block 7: Assets (Vermögen) - Arrays for Europace positionen structure
+  bankUndSparguthaben?: Array<{
+    aktuellerWert?: number;
+    zinsertragJaehrlich?: number;
+  }>;
+
+  wertpapiere?: Array<{
+    aktuellerWert?: number;
+    dividendenJaehrlich?: number;
+  }>;
+
+  sparplaene?: Array<{
+    aktuellerWert?: number;
+    beitragMonatlich?: number;
+  }>;
+
+  sonstigeVermoegen?: Array<{
+    aktuellerWert?: number;
+    beschreibung?: string;
+  }>;
+
+  // Legacy single value fields (for backwards compatibility)
   summeBankUndSparguthaben?: number;
   zinsertragJaehrlich?: number;
   depotwert?: number;
@@ -107,6 +128,8 @@ export interface SelbstauskunftData {
     sparbeitrag?: number;
     bausparkasse?: string;
     bausparsumme?: number;
+    vertragsNummer?: string;
+    tarif?: string;
   }>;
 
   lebensversicherungen?: Array<{
@@ -114,34 +137,74 @@ export interface SelbstauskunftData {
     praemieMonatlich?: number;
   }>;
 
-  // Block 7: Income (Einnahmen)
-  sonstigeEinnahmenMonatlich?: number;
-  variableEinkuenfteMonatlich?: number;
-  ehegattenunterhaltMonatlich?: number;
-  unbefristeteZusatzrentenMonatlich?: number;
+  // Block 7: Income (Einnahmen) - Arrays for Europace positionen structure
+  kindergeld?: Array<{
+    betragMonatlich?: number;
+  }>;
+
+  sonstigeEinnahmen?: Array<{
+    betragMonatlich?: number;
+    beschreibung?: string;
+  }>;
+
+  variableEinkuenfte?: Array<{
+    betragMonatlich?: number;
+  }>;
+
+  ehegattenunterhalt?: Array<{
+    betragMonatlich?: number;
+  }>;
+
+  unbefristeteZusatzrenten?: Array<{
+    betragMonatlich?: number;
+  }>;
+
   einkuenfteAusNebentaetigkeit?: Array<{
     betragMonatlich?: number;
     beschreibung?: string;
     beginnDerNebentaetigkeit?: string;
   }>;
 
+  // Legacy single value fields (for backwards compatibility)
+  sonstigeEinnahmenMonatlich?: number;
+  variableEinkuenfteMonatlich?: number;
+  ehegattenunterhaltMonatlich?: number;
+  unbefristeteZusatzrentenMonatlich?: number;
+
   // Additional Income (old fields for backwards compatibility)
   zusatzlichesEinkommen?: number;
   nebeneinkommen?: number;
   mieteinnahmen?: number;
-  kindergeld?: number;
   elterngeld?: number;
   sonstigeEinkuenfte?: number;
 
-  // Block 7: Expenses (Ausgaben)
+  // Block 7: Expenses (Ausgaben) - Arrays for Europace positionen structure
+  mietAusgaben?: Array<{
+    betragMonatlich?: number;
+    entfallenMitFinanzierung?: boolean;
+  }>;
+
+  privateKrankenversicherung?: Array<{
+    betragMonatlich?: number;
+  }>;
+
+  sonstigeAusgaben?: Array<{
+    betragMonatlich?: number;
+    beschreibung?: string;
+  }>;
+
+  unterhaltsverpflichtungen?: Array<{
+    betragMonatlich?: number;
+    empfaenger?: string;
+  }>;
+
+  // Legacy single value fields (for backwards compatibility)
   mietausgabenMonatlich?: number;
   lebenshaltungskostenMonatlich?: number;
   unterhaltsverpflichtungenMonatlich?: number;
   privateKrankenversicherungMonatlich?: number;
   sonstigeAusgabenMonatlich?: number;
   sonstigeVersicherungsausgabenMonatlich?: number;
-
-  // Expenses (old fields for backwards compatibility)
   monatlicheAusgaben?: number;
   unterhaltszahlungen?: number;
   krankenversicherung?: number;
@@ -162,7 +225,14 @@ export interface SelbstauskunftData {
     laufzeitende?: string;
   }>;
 
-  // Other Liabilities
+  // Other Liabilities - Arrays for Europace positionen structure
+  sonstigeVerbindlichkeiten?: Array<{
+    rateMonatlich?: number;
+    beschreibung?: string;
+    restschuld?: number;
+  }>;
+
+  // Legacy single value field (for backwards compatibility)
   sonstigeVerbindlichkeitRateMonatlich?: number;
 
   // Existing Financial Obligations (old format for backwards compatibility)
@@ -175,6 +245,33 @@ export interface SelbstauskunftData {
   }>;
   kreditkartenLimit?: number;
   buergschaften?: number;
+
+  // Existing Properties (bestehendeImmobilien)
+  bestehendeImmobilien?: Array<{
+    adresse?: {
+      strasse?: string;
+      hausnummer?: string;
+      postleitzahl?: string;
+      ort?: string;
+    };
+    objektArt?: string; // EINFAMILIENHAUS, EIGENTUMSWOHNUNG, MEHRFAMILIENHAUS, etc.
+    baujahr?: number;
+    wohnflaeche?: number;
+    grundstuecksgroesse?: number;
+    nutzungsArt?: string; // EIGENGENUTZT, VERMIETET
+    mieteinnahmenNettoKaltMonatlich?: number;
+    vermieteteFlaeche?: number;
+    verkehrswert?: number;
+    marktwert?: number;
+    bezeichnung?: string;
+    bestehendeDarlehen?: Array<{
+      darlehensArt?: string;
+      restschuld?: number;
+      rateMonatlich?: number;
+      zinsBindungEndetAm?: string;
+      eingetrageneGrundschuld?: number;
+    }>;
+  }>;
 
   // Property Details (if buying/financing)
   objektart?: string; // EINFAMILIENHAUS, EIGENTUMSWOHNUNG, etc.

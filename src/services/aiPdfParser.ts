@@ -168,7 +168,40 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
     }
   ],
 
-  // Other Assets - Look for "Sonstiges Vermögen", "Gold", "Kunst", "Oldtimer"
+  // Bank and Savings Accounts (Arrays for Europace positionen)
+  "bankUndSparguthaben": [
+    {
+      "aktuellerWert": Current value of bank/savings accounts (e.g., 50000),
+      "zinsertragJaehrlich": Annual interest income (e.g., 500)
+    }
+  ],
+
+  // Securities/Stocks (Arrays for Europace positionen)
+  "wertpapiere": [
+    {
+      "aktuellerWert": Current value of securities/stocks (e.g., 35000),
+      "dividendenJaehrlich": Annual dividend income (e.g., 1000)
+    }
+  ],
+
+  // Savings Plans (Arrays for Europace positionen)
+  "sparplaene": [
+    {
+      "aktuellerWert": Current value of savings plan (e.g., 12000),
+      "beitragMonatlich": Monthly contribution (e.g., 300)
+    }
+  ],
+
+  // Other Assets (Arrays for Europace positionen)
+  "sonstigeVermoegen": [
+    {
+      "aktuellerWert": Value of other assets (e.g., 8000),
+      "beschreibung": "Description (e.g., Gold, Kunst, Oldtimer, etc.)"
+    }
+  ],
+
+  // Legacy single value fields (still extract these for backwards compatibility)
+  "summeBankUndSparguthaben": Sum of all bank and savings accounts,
   "sonstigesVermoegenWert": Other assets value (e.g., 8000),
 
   // ==========================================
@@ -176,10 +209,41 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   // Look for sections like "Sonstige Einnahmen", "Zusätzliche Einnahmen"
   // ==========================================
 
-  "sonstigeEinnahmenMonatlich": Other monthly income (Kindergeld, Mieteinnahmen Garage, etc.) (e.g., 500),
-  "variableEinkuenfteMonatlich": Variable monthly income (e.g., 300),
-  "ehegattenunterhaltMonatlich": Spousal support received monthly (e.g., 0),
-  "unbefristeteZusatzrentenMonatlich": Unlimited additional pension monthly (Betriebsrente, etc.) (e.g., 200),
+  // Kindergeld (Arrays for Europace positionen)
+  "kindergeld": [
+    {
+      "betragMonatlich": Monthly child benefit amount (e.g., 510 for multiple children, 250 per child)
+    }
+  ],
+
+  // Sonstige Einnahmen (Arrays for Europace positionen)
+  "sonstigeEinnahmen": [
+    {
+      "betragMonatlich": Other monthly income (e.g., 500),
+      "beschreibung": "Description (e.g., Mieteinnahmen Garage, etc.)"
+    }
+  ],
+
+  // Variable Einkünfte (Arrays for Europace positionen)
+  "variableEinkuenfte": [
+    {
+      "betragMonatlich": Variable monthly income like bonus, commission (e.g., 300)
+    }
+  ],
+
+  // Ehegattenunterhalt (Arrays for Europace positionen)
+  "ehegattenunterhalt": [
+    {
+      "betragMonatlich": Spousal support received monthly (e.g., 0)
+    }
+  ],
+
+  // Unbefristete Zusatzrenten (Arrays for Europace positionen)
+  "unbefristeteZusatzrenten": [
+    {
+      "betragMonatlich": Unlimited additional pension monthly (Betriebsrente, etc.) (e.g., 200)
+    }
+  ],
 
   "einkuenfteAusNebentaetigkeit": [
     {
@@ -189,11 +253,49 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
     }
   ],
 
+  // Legacy single value fields (still extract these for backwards compatibility)
+  "sonstigeEinnahmenMonatlich": Other monthly income (e.g., 500),
+  "variableEinkuenfteMonatlich": Variable monthly income (e.g., 300),
+  "ehegattenunterhaltMonatlich": Spousal support received monthly (e.g., 0),
+  "unbefristeteZusatzrentenMonatlich": Unlimited additional pension monthly (e.g., 200),
+
   // ==========================================
   // BLOCK-007: AUSGABEN (Expenses) - VERY IMPORTANT!
   // Look for sections like "Ausgaben", "Kosten", "Verpflichtungen"
   // ==========================================
 
+  // Mietausgaben (Arrays for Europace positionen)
+  "mietAusgaben": [
+    {
+      "betragMonatlich": Monthly rent expenses (current rent payment) (e.g., 1200),
+      "entfallenMitFinanzierung": false  // Will these expenses cease with financing? Usually false
+    }
+  ],
+
+  // Private Krankenversicherung (Arrays for Europace positionen)
+  "privateKrankenversicherung": [
+    {
+      "betragMonatlich": Monthly private health insurance cost (e.g., 450)
+    }
+  ],
+
+  // Sonstige Ausgaben (Arrays for Europace positionen)
+  "sonstigeAusgaben": [
+    {
+      "betragMonatlich": Other monthly expenses (e.g., 800),
+      "beschreibung": "Description of other expenses"
+    }
+  ],
+
+  // Unterhaltsverpflichtungen (Arrays for Europace positionen)
+  "unterhaltsverpflichtungen": [
+    {
+      "betragMonatlich": Monthly alimony/child support obligations (e.g., 500),
+      "empfaenger": "Recipient name (optional)"
+    }
+  ],
+
+  // Legacy single value fields (still extract these for backwards compatibility)
   "mietausgabenMonatlich": Monthly rent expenses (current rent payment) (e.g., 1200),
   "lebenshaltungskostenMonatlich": Monthly living costs (Lebenshaltung) (e.g., 2000),
   "unterhaltsverpflichtungenMonatlich": Monthly alimony/child support obligations (e.g., 500),
@@ -224,7 +326,16 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
     }
   ],
 
-  // 🔴 CRITICAL: Other Liabilities - Look for "Sonstige Verbindlichkeiten", "Weitere Kredite", "Andere Verpflichtungen"
+  // Sonstige Verbindlichkeiten (Arrays for Europace positionen)
+  "sonstigeVerbindlichkeiten": [
+    {
+      "rateMonatlich": Monthly payment for other liabilities (e.g., 50),
+      "beschreibung": "Description of liability",
+      "restschuld": Remaining debt (optional)
+    }
+  ],
+
+  // Legacy single value field (still extract this for backwards compatibility)
   "sonstigeVerbindlichkeitRateMonatlich": Other monthly liability payment (any other debts not listed above),
 
   // ==========================================
@@ -278,30 +389,33 @@ Return ONLY a valid JSON object (no markdown, no explanation) with this structur
   "marktwert": Market value,
 
   // ==========================================
-  // BLOCK-011: BESTEHENDE IMMOBILIEN (Existing Properties)
+  // BLOCK-011: BESTEHENDE IMMOBILIEN (Existing Properties) - Look for "Weitere Immobilien", "Bestehende Immobilien", "Immobilienbesitz"
   // ==========================================
   "bestehendeImmobilien": [
     {
-      "bezeichnung": "Property description/name",
-      "marktwert": Market value,
+      "bezeichnung": "Property description/name (e.g., 'Eigentumswohnung Berlin')",
+      "verkehrswert": Market/traffic value (Verkehrswert),
+      "marktwert": Market value (Marktwert),
       "adresse": {
-        "strasse": "Street",
+        "strasse": "Street name",
         "hausnummer": "House number",
-        "plz": "Postal code",
+        "postleitzahl": "Postal code",
         "ort": "City"
       },
-      "typ": "EINFAMILIENHAUS/EIGENTUMSWOHNUNG/etc",
-      "grundstuecksgroesse": Plot size,
+      "objektArt": "EINFAMILIENHAUS/EIGENTUMSWOHNUNG/MEHRFAMILIENHAUS/ZWEIFAMILIENHAUS/etc",
+      "grundstuecksgroesse": Plot size in sqm (0 if apartment),
       "baujahr": Year built,
-      "wohnflaeche": Living space,
-      "nutzungsart": "EIGENGENUTZT/VERMIETET/TEILVERMIETET",
-      "mieteinnahmenMonatlich": Monthly rental income (if rented),
-      "darlehen": [
+      "wohnflaeche": Living space in sqm,
+      "nutzungsArt": "EIGENGENUTZT/VERMIETET/TEILVERMIETET",
+      "mieteinnahmenNettoKaltMonatlich": Monthly net cold rent income (if rented),
+      "vermieteteFlaeche": Rented space in sqm (if rented),
+      "bestehendeDarlehen": [
         {
-          "darlehensgeber": "Lender name",
-          "urspruenglicheDarlehenssumme": Original loan amount,
-          "restschuld": Remaining debt,
-          "rateMonatlich": Monthly payment,
+          "darlehensArt": "IMMOBILIENDARLEHEN/ANNUITAETENDARLEHEN/etc",
+          "restschuld": Remaining debt (aktuelleRestschuld),
+          "rateMonatlich": Monthly payment rate,
+          "zinsBindungEndetAm": "Interest binding end date YYYY-MM-DD",
+          "eingetrageneGrundschuld": Registered land charge amount
           "sollzins": Interest rate percentage,
           "zinsbindungBis": "Fixed rate until YYYY-MM-DD",
           "laufzeitende": "Loan end date YYYY-MM-DD"
