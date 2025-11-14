@@ -421,6 +421,185 @@ export function mapToEuropacePayload(extractedData: SelbstauskunftData) {
       })),
     }),
 
+    // BLOCK-012: positionen structure (all financial arrays matching JL8Y5D)
+    // This contains all Vermögen, Einnahmen, Ausgaben, Verbindlichkeiten as arrays
+    positionen: {
+      // VERMÖGEN (Assets) - Arrays
+      // Bank and savings accounts
+      ...((extractedData.bankUndSparguthaben && extractedData.bankUndSparguthaben.length > 0) && {
+        bankUndSparguthaben: extractedData.bankUndSparguthaben.map((bank: any) => ({
+          ...(bank.aktuellerWert && { aktuellerWert: parseGermanNumber(bank.aktuellerWert) }),
+          ...(bank.zinsertragJaehrlich && { zinsertragJaehrlich: parseGermanNumber(bank.zinsertragJaehrlich) }),
+          vermoegensTyp: 'VERMOEGEN',
+          zahlungsTyp: 'EINNAHME',
+        })),
+      }),
+
+      // Building savings contracts (already exists, keep same structure)
+      ...((extractedData.bausparvertraege && extractedData.bausparvertraege.length > 0) && {
+        bausparvertraege: extractedData.bausparvertraege.map((bsv: any) => ({
+          ...(bsv.tarif && { tarif: bsv.tarif }),
+          ...(bsv.vertragsNummer && { vertragsNummer: bsv.vertragsNummer }),
+          ...(bsv.bausparSumme && { bausparSumme: parseGermanNumber(bsv.bausparSumme) }),
+          ...(bsv.zuteilungsDatum && { zuteilungsDatum: normalizeDate(bsv.zuteilungsDatum) }),
+          ...(bsv.vermoegensEinsatz && { vermoegensEinsatz: bsv.vermoegensEinsatz }),
+          ...(bsv.aktuellerWert && { aktuellerWert: parseGermanNumber(bsv.aktuellerWert) }),
+          vermoegensTyp: 'VERMOEGEN',
+          zahlungsTyp: 'AUSGABE',
+          typ: 'BAUSPARVERTRAG',
+        })),
+      }),
+
+      // Life and pension insurance
+      ...((extractedData.lebensversicherungen && extractedData.lebensversicherungen.length > 0) && {
+        lebensUndRentenVersicherungen: extractedData.lebensversicherungen.map((lv: any) => ({
+          ...(lv.rueckkaufswert && { rueckkaufsWertAktuell: parseGermanNumber(lv.rueckkaufswert) }),
+          ...(lv.praemieMonatlich && { praemieMonatlich: parseGermanNumber(lv.praemieMonatlich) }),
+          ...(lv.vermoegensEinsatz && { vermoegensEinsatz: lv.vermoegensEinsatz }),
+          vermoegensTyp: 'VERMOEGEN',
+          zahlungsTyp: 'AUSGABE',
+        })),
+      }),
+
+      // Savings plans
+      ...((extractedData.sparplaene && extractedData.sparplaene.length > 0) && {
+        sparplaene: extractedData.sparplaene.map((sp: any) => ({
+          ...(sp.aktuellerWert && { aktuellerWert: parseGermanNumber(sp.aktuellerWert) }),
+          vermoegensTyp: 'VERMOEGEN',
+          zahlungsTyp: 'AUSGABE',
+        })),
+      }),
+
+      // Securities/Stocks
+      ...((extractedData.wertpapiere && extractedData.wertpapiere.length > 0) && {
+        wertpapiere: extractedData.wertpapiere.map((wp: any) => ({
+          ...(wp.aktuellerWert && { aktuellerWert: parseGermanNumber(wp.aktuellerWert) }),
+          zahlungsTyp: 'EINNAHME',
+          vermoegensTyp: 'VERMOEGEN',
+        })),
+      }),
+
+      // Other assets
+      ...((extractedData.sonstigeVermoegen && extractedData.sonstigeVermoegen.length > 0) && {
+        sonstigeVermoegen: extractedData.sonstigeVermoegen.map((sv: any) => ({
+          ...(sv.aktuellerWert && { aktuellerWert: parseGermanNumber(sv.aktuellerWert) }),
+          vermoegensTyp: 'VERMOEGEN',
+        })),
+      }),
+
+      // EINNAHMEN (Income) - Arrays
+      // Child benefits
+      ...((extractedData.kindergeld && extractedData.kindergeld.length > 0) && {
+        kindergeld: extractedData.kindergeld.map((kg: any) => ({
+          ...(kg.einnahmenMonatlich && { einnahmenMonatlich: parseGermanNumber(kg.einnahmenMonatlich) }),
+          zahlungsTyp: 'EINNAHME',
+        })),
+      }),
+
+      // Side job income
+      ...((extractedData.einkuenfteAusNebentaetigkeit && extractedData.einkuenfteAusNebentaetigkeit.length > 0) && {
+        einkuenfteAusNebentaetigkeit: extractedData.einkuenfteAusNebentaetigkeit.map((nebentaetigkeit: any) => ({
+          ...(nebentaetigkeit.einnahmenMonatlich && { einnahmenMonatlich: parseGermanNumber(nebentaetigkeit.einnahmenMonatlich) }),
+          ...(nebentaetigkeit.beginnDerNebentaetigkeit && {
+            beginnDerNebentaetigkeit: normalizeDate(nebentaetigkeit.beginnDerNebentaetigkeit),
+          }),
+          zahlungsTyp: 'EINNAHME',
+        })),
+      }),
+
+      // Other income
+      ...((extractedData.sonstigeEinnahmen && extractedData.sonstigeEinnahmen.length > 0) && {
+        sonstigeEinnahmen: extractedData.sonstigeEinnahmen.map((se: any) => ({
+          ...(se.einnahmenMonatlich && { einnahmenMonatlich: parseGermanNumber(se.einnahmenMonatlich) }),
+          zahlungsTyp: 'EINNAHME',
+        })),
+      }),
+
+      // Variable income
+      ...((extractedData.variableEinkuenfte && extractedData.variableEinkuenfte.length > 0) && {
+        variableEinkuenfte: extractedData.variableEinkuenfte.map((ve: any) => ({
+          ...(ve.einnahmenMonatlich && { einnahmenMonatlich: parseGermanNumber(ve.einnahmenMonatlich) }),
+          zahlungsTyp: 'EINNAHME',
+        })),
+      }),
+
+      // Spousal support
+      ...((extractedData.ehegattenunterhalt && extractedData.ehegattenunterhalt.length > 0) && {
+        ehegattenUnterhalt: extractedData.ehegattenunterhalt.map((eu: any) => ({
+          ...(eu.einnahmenMonatlich && { einnahmenMonatlich: parseGermanNumber(eu.einnahmenMonatlich) }),
+          zahlungsTyp: 'EINNAHME',
+        })),
+      }),
+
+      // Unlimited additional pensions
+      ...((extractedData.unbefristeteZusatzrenten && extractedData.unbefristeteZusatzrenten.length > 0) && {
+        unbefristeteZusatzRenten: extractedData.unbefristeteZusatzrenten.map((uzr: any) => ({
+          ...(uzr.einnahmenMonatlich && { einnahmenMonatlich: parseGermanNumber(uzr.einnahmenMonatlich) }),
+          zahlungsTyp: 'EINNAHME',
+        })),
+      }),
+
+      // AUSGABEN (Expenses) - Arrays
+      // Rent expenses
+      ...((extractedData.mietAusgaben && extractedData.mietAusgaben.length > 0) && {
+        mietAusgaben: extractedData.mietAusgaben.map((ma: any) => ({
+          ...(ma.ausgabenMonatlich && { ausgabenMonatlich: parseGermanNumber(ma.ausgabenMonatlich) }),
+          ...(typeof ma.entfallenMitFinanzierung === 'boolean' && { entfallenMitFinanzierung: ma.entfallenMitFinanzierung }),
+          zahlungsTyp: 'AUSGABE',
+        })),
+      }),
+
+      // Private health insurance
+      ...((extractedData.privateKrankenversicherung && extractedData.privateKrankenversicherung.length > 0) && {
+        privateKrankenversicherung: extractedData.privateKrankenversicherung.map((pkv: any) => ({
+          ...(pkv.ausgabenMonatlich && { ausgabenMonatlich: parseGermanNumber(pkv.ausgabenMonatlich) }),
+          zahlungsTyp: 'AUSGABE',
+        })),
+      }),
+
+      // Other expenses
+      ...((extractedData.sonstigeAusgaben && extractedData.sonstigeAusgaben.length > 0) && {
+        sonstigeAusgaben: extractedData.sonstigeAusgaben.map((sa: any) => ({
+          ...(sa.ausgabenMonatlich && { ausgabenMonatlich: parseGermanNumber(sa.ausgabenMonatlich) }),
+          zahlungsTyp: 'AUSGABE',
+        })),
+      }),
+
+      // VERBINDLICHKEITEN (Liabilities) - Arrays
+      // Installment loans (ratenkredite)
+      ...((extractedData.ratenkredite && extractedData.ratenkredite.length > 0) && {
+        ratenkredite: extractedData.ratenkredite.map((kredit: any) => ({
+          ...(kredit.glaeubiger && { glaeubiger: kredit.glaeubiger }),
+          ...(kredit.laufzeitEnde && { laufzeitEnde: normalizeDate(kredit.laufzeitEnde) }),
+          ...(kredit.rateMonatlich && { rateMonatlich: parseGermanNumber(kredit.rateMonatlich) }),
+          ...(kredit.restschuld && { restschuld: parseGermanNumber(kredit.restschuld) }),
+          vermoegensTyp: 'VERBINDLICHKEIT',
+          zahlungsTyp: 'AUSGABE',
+        })),
+      }),
+
+      // Private loans (privateDarlehen)
+      ...((extractedData.privatdarlehen && extractedData.privatdarlehen.length > 0) && {
+        privateDarlehen: extractedData.privatdarlehen.map((darlehen: any) => ({
+          ...(darlehen.glaeubiger && { glaeubiger: darlehen.glaeubiger }),
+          ...(darlehen.laufzeitEnde && { laufzeitEnde: normalizeDate(darlehen.laufzeitEnde) }),
+          ...(darlehen.rateMonatlich && { rateMonatlich: parseGermanNumber(darlehen.rateMonatlich) }),
+          ...(darlehen.restschuld && { restschuld: parseGermanNumber(darlehen.restschuld) }),
+          vermoegensTyp: 'VERBINDLICHKEIT',
+          zahlungsTyp: 'AUSGABE',
+        })),
+      }),
+
+      // Other liabilities
+      ...((extractedData.sonstigeVerbindlichkeiten && extractedData.sonstigeVerbindlichkeiten.length > 0) && {
+        sonstigeVerbindlichkeiten: extractedData.sonstigeVerbindlichkeiten.map((sv: any) => ({
+          ...(sv.rateMonatlich && { rateMonatlich: parseGermanNumber(sv.rateMonatlich) }),
+          vermoegensTyp: 'VERBINDLICHKEIT',
+          zahlungsTyp: 'AUSGABE',
+        })),
+      }),
+    },
+
     // IMPORTANT: finanzielleSituation is at haushalt level
     finanzielleSituation: {
       // BLOCK-007: Shared household (if both applicants exist)

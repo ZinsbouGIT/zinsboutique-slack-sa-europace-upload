@@ -1,0 +1,493 @@
+Fetching Kundenangaben for Vorgang JL8Y5D from Europace...
+
+🔍 Attempting to fetch full Kundenangaben payload...
+
+2025-11-14 16:18:31 [[32minfo[39m]: Fetching Kundenangaben from Europace {"vorgangsnummer":"JL8Y5D"}
+2025-11-14 16:18:31 [[32minfo[39m]: Fetching new OAuth2 access token from Europace
+2025-11-14 16:18:31 [[32minfo[39m]: Successfully obtained OAuth2 access token {"expiresIn":3600,"scope":"baufinanzierung:ereignis:lesen unterlagen:unterlage:schreiben unterlagen:dokument:schreiben unterlagen:freigabe:lesen unterlagen:freigabe:schreiben dokumente:dokument:schreiben dokumente:dokument:lesen baufinanzierung:vorgang:schreiben baufinanzierung:produktanbieter:lesen unterlagen:unterlage:lesen profile baufinanzierung:antrag:schreiben unterlagen:dokument:lesen baufinanzierung:echtgeschaeft baufinanzierung:antrag:lesen baufinanzierung:vorgang:lesen report:rohdaten:lesen baufinanzierung:angebot:ermitteln unterlagen:unterlage:freigeben"}
+2025-11-14 16:18:31 [[32minfo[39m]: Sending request to Europace {"url":"https://baufinanzierung.api.europace.de/kundenangaben/vorgaenge/JL8Y5D","method":"get","hasAuthHeader":true,"authHeaderPrefix":"Bearer eyJraWQiOiIyN..."}
+2025-11-14 16:18:31 [[31merror[39m]: Request failed with status code 404 {"status":404,"statusText":"Not Found","data":{"type":"https://api.europace.de/kundenangaben/problem/not-found","title":"Not Found","status":404,"detail":"No endpoint GET /kundenangaben/vorgaenge/JL8Y5D.","traceId":"Root=1-69174847-5d44f2755f6a8d322053fe2f;Parent=292be9c1d66f9ac8;Sampled=1"},"headers":{"date":"Fri, 14 Nov 2025 15:18:31 GMT","content-type":"application/problem+json;charset=UTF-8","transfer-encoding":"chunked","connection":"keep-alive","x-traceid":"Root=1-69174847-5d44f2755f6a8d322053fe2f;Parent=292be9c1d66f9ac8;Sampled=1","x-content-type-options":"nosniff","x-xss-protection":"0","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","expires":"0","strict-transport-security":"max-age=31536000 ; includeSubDomains","x-frame-options":"DENY"},"requestUrl":"/kundenangaben/vorgaenge/JL8Y5D","requestMethod":"get"}
+2025-11-14 16:18:31 [[31merror[39m]: Failed to get Kundenangaben {"vorgangsnummer":"JL8Y5D","error":"Request failed with status code 404","status":404,"data":{"type":"https://api.europace.de/kundenangaben/problem/not-found","title":"Not Found","status":404,"detail":"No endpoint GET /kundenangaben/vorgaenge/JL8Y5D.","traceId":"Root=1-69174847-5d44f2755f6a8d322053fe2f;Parent=292be9c1d66f9ac8;Sampled=1"}}
+❌ Error fetching Kundenangaben: Error: Failed to get Kundenangaben from Europace
+    at KundenangabenClient.getKundenangaben (/Users/timlutter/Desktop/Projects/zinsboutique-sa-europace-upload/src/europace/kundenangaben.ts:169:13)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async fetchKundenangaben (/Users/timlutter/Desktop/Projects/zinsboutique-sa-europace-upload/fetch-europace-vorgang.ts:14:31)
+
+🔄 Trying alternative endpoint /v2/vorgaenge...
+
+2025-11-14 16:18:31 [[32minfo[39m]: Sending request to Europace {"url":"https://baufinanzierung.api.europace.de/v2/vorgaenge/JL8Y5D","method":"get","hasAuthHeader":true,"authHeaderPrefix":"Bearer eyJraWQiOiIyN..."}
+
+=== VORGANG DATA (basic) ===
+
+{
+  "_links": {
+    "ereignisse": {
+      "href": "https://baufinanzierung.api.europace.de/v2/ereignisse/JL8Y5D"
+    },
+    "antraege": {
+      "href": "https://baufinanzierung.api.europace.de/v2/vorgaenge/JL8Y5D/antraege"
+    },
+    "gemerkteAngebote": {
+      "href": "https://baufinanzierung.api.europace.de/v2/vorgaenge/JL8Y5D/gemerkteAngebote?apiVersion=V2"
+    },
+    "finanzierungsvorschlaege": {
+      "href": "https://baufinanzierung.api.europace.de/v2/vorgaenge/JL8Y5D/finanzierungsvorschlaege"
+    },
+    "self": {
+      "href": "https://baufinanzierung.api.europace.de/v2/vorgaenge/JL8Y5D?apiVersion=V2"
+    }
+  },
+  "vorgangsNummer": "JL8Y5D",
+  "externeVorgangsNummer": "UNIQUE-ID-12345",
+  "erstelltAm": "2025-11-11",
+  "letztesEreignis": "2025-11-11T16:03:53.402Z",
+  "status": "AKTIV",
+  "bankverbindung": {
+    "id": "69135e69a5d739540ed0ed55"
+  },
+  "haushalte": [
+    {
+      "id": "69135e69ff3441c7d778321a",
+      "antragsteller": [
+        {
+          "id": "69135e69ea3d7a99e8c40540",
+          "anrede": "HERR",
+          "anschrift": {
+            "hausnummer": "42a",
+            "ort": "Berlin",
+            "postleitzahl": "10115",
+            "strasse": "Musterstraße"
+          },
+          "beschaeftigung": {
+            "art": "ANGESTELLTER",
+            "beruf": "Software-Entwickler",
+            "anzahlGehaelterProJahr": 13,
+            "arbeitgeberInDeutschlandAnsaessig": true,
+            "arbeitgeberLand": {
+              "isoCountryCode": "DE",
+              "name": "Deutschland"
+            },
+            "befristungsStatus": "UNBEFRISTET",
+            "beschaeftigtSeit": "2018-01-15",
+            "einkommenNettoMonatlich": 5000,
+            "inProbezeit": false,
+            "arbeitgeber": "Tech Solutions GmbH"
+          },
+          "email": "max.mustermann@example.com",
+          "externeAntragstellerId": "kunde-001",
+          "familienstand": "VERHEIRATET",
+          "guetertrennungVereinbartWennVerheiratet": false,
+          "geburtsdatum": "1985-03-15",
+          "geburtsort": "Berlin",
+          "nachname": "Mustermann",
+          "staatsangehoerigkeit": {
+            "isoCountryCode": "DE",
+            "name": "Deutschland"
+          },
+          "telefonnummer": "12345678",
+          "telefonnummerVorwahl": "030",
+          "titelDoktor": true,
+          "titelProfessor": false,
+          "titel": [
+            "DOKTOR"
+          ],
+          "vorAnschrift": {
+            "hausnummer": "10",
+            "ort": "Berlin",
+            "postleitzahl": "10178",
+            "strasse": "Alte Straße"
+          },
+          "vorname": "Max",
+          "weitereKontaktMoeglichkeiten": "Mobil: 0171-9876543, Büro: 030-22334455",
+          "wohnhaftSeit": "2020-01-01",
+          "steuerId": "11/815/08150"
+        },
+        {
+          "id": "69135e69309603fa51a39491",
+          "anrede": "FRAU",
+          "anschrift": {
+            "hausnummer": "42a",
+            "ort": "Berlin",
+            "postleitzahl": "10115",
+            "strasse": "Musterstraße"
+          },
+          "beschaeftigung": {
+            "art": "ANGESTELLTER",
+            "beruf": "Marketing Managerin",
+            "anzahlGehaelterProJahr": 12,
+            "arbeitgeberInDeutschlandAnsaessig": true,
+            "arbeitgeberLand": {
+              "isoCountryCode": "DE",
+              "name": "Deutschland"
+            },
+            "befristungsStatus": "UNBEFRISTET",
+            "beschaeftigtSeit": "2019-03-01",
+            "einkommenNettoMonatlich": 3500,
+            "inProbezeit": false,
+            "arbeitgeber": "Marketing Excellence AG"
+          },
+          "email": "erika.mustermann@example.com",
+          "externeAntragstellerId": "kunde-002",
+          "familienstand": "VERHEIRATET",
+          "guetertrennungVereinbartWennVerheiratet": false,
+          "geburtsdatum": "1987-07-22",
+          "geburtsort": "München",
+          "nachname": "Mustermann",
+          "staatsangehoerigkeit": {
+            "isoCountryCode": "DE",
+            "name": "Deutschland"
+          },
+          "telefonnummer": "87654321",
+          "telefonnummerVorwahl": "030",
+          "titelDoktor": false,
+          "titelProfessor": false,
+          "vorname": "Erika",
+          "weitereKontaktMoeglichkeiten": "Mobil: 0171-8765432",
+          "wohnhaftSeit": "2020-01-01",
+          "steuerId": "22/333/44444"
+        }
+      ],
+      "bestehendeImmobilien": [
+        {
+          "id": "69135e69031717a463cf54cf",
+          "adresse": {
+            "hausnummer": "15",
+            "ort": "Berlin",
+            "postleitzahl": "10179",
+            "strasse": "Wohnstraße"
+          },
+          "bundesland": "BERLIN",
+          "grundstueck": {
+            "groesse": 0
+          },
+          "gebaeude": {
+            "baujahr": 2015,
+            "wohnflaeche": {
+              "vermietungsInformationen": {
+                "nutzungsArt": "EIGENGENUTZT"
+              },
+              "gesamtGroesse": 120
+            }
+          },
+          "objektArt": "EIGENTUMSWOHNUNG",
+          "verkehrswert": 450000,
+          "marktwert": 450000,
+          "bestehendeDarlehen": [
+            {
+              "id": "69135e697c4e1d5bdac12841",
+              "aktuelleRestschuldWennNichtAbzuloesen": 180000,
+              "darlehensArt": "IMMOBILIENDARLEHEN",
+              "eingetrageneGrundschuld": 200000,
+              "grundschuldArt": "BUCH_GRUNDSCHULD",
+              "rateMonatlich": 850,
+              "zinsBindungEndetAm": "2028-12-31"
+            }
+          ],
+          "bezeichnung": "Eigentumswohnung Berlin"
+        },
+        {
+          "id": "69135e69e5062462be33f470",
+          "adresse": {
+            "hausnummer": "8",
+            "ort": "München",
+            "postleitzahl": "80331",
+            "strasse": "Vermietstraße"
+          },
+          "bundesland": "BAYERN",
+          "grundstueck": {
+            "groesse": 0
+          },
+          "gebaeude": {
+            "baujahr": 2010,
+            "wohnflaeche": {
+              "vermietungsInformationen": {
+                "nutzungsArt": "VERMIETET",
+                "mieteinnahmenNettoKaltMonatlich": 1200,
+                "vermieteteFlaeche": 75
+              },
+              "gesamtGroesse": 75
+            }
+          },
+          "objektArt": "EIGENTUMSWOHNUNG",
+          "verkehrswert": 300000,
+          "marktwert": 300000,
+          "bezeichnung": "Vermietetes Apartment München"
+        }
+      ],
+      "positionen": {
+        "sonstigeAusgaben": [
+          {
+            "ausgabenMonatlich": 800,
+            "zahlungsTyp": "AUSGABE"
+          }
+        ],
+        "bankUndSparguthaben": [
+          {
+            "aktuellerWert": 50000,
+            "maximalAufzuloesenderWert": 0,
+            "zinsertragJaehrlich": 500,
+            "vermoegensTyp": "VERMOEGEN",
+            "zahlungsTyp": "EINNAHME"
+          }
+        ],
+        "bausparvertraege": [
+          {
+            "tarif": "Classic",
+            "id": "69135e696f1a8b64725bebef",
+            "vertragsNummer": "BSP-123456",
+            "bausparSumme": 50000,
+            "zuteilungsDatum": "2025-12-31",
+            "vermoegensEinsatz": "KEIN_EINSATZ",
+            "aktuellerWert": 15000,
+            "vermoegensTyp": "VERMOEGEN",
+            "zahlungsTyp": "AUSGABE",
+            "typ": "BAUSPARVERTRAG"
+          },
+          {
+            "tarif": "Fuchs",
+            "id": "69135e69c90bf83443f20ec3",
+            "vertragsNummer": "BSP-789012",
+            "bausparSumme": 30000,
+            "aktuellerWert": 8000,
+            "vermoegensTyp": "VERMOEGEN",
+            "zahlungsTyp": "AUSGABE",
+            "typ": "BAUSPARVERTRAG"
+          },
+          {
+            "tarif": "Standard",
+            "id": "69135e69659d149257e405c0",
+            "vertragsNummer": "BSP-345678",
+            "bausparSumme": 25000,
+            "produktAnbieter": {
+              "id": "4e68a1e6fb2673309212aa47",
+              "partnerId": "NOE61",
+              "firmierung": "Wüstenrot Bausparkasse AG",
+              "email": "kundenservice@wuestenrot.ww-ag.epost.de",
+              "telefonnummer": "07141 / 16 - 0",
+              "anschrift": {
+                "hausnummer": "1",
+                "ort": "Ludwigsburg",
+                "postleitzahl": "71638",
+                "strasse": "Wüstenrotstraße"
+              },
+              "vertriebsOrganisation": {
+                "name": "Bausparkasse Wüstenrot AG",
+                "firma": "Wüstenrot Bausparkasse AG",
+                "vertriebsOrganisationsId": "WUESTENROT"
+              },
+              "kreditsachbearbeiter": false,
+              "produktAnbieterId": "WUESTENROT"
+            },
+            "aktuellerWert": 5000,
+            "vermoegensTyp": "VERMOEGEN",
+            "zahlungsTyp": "AUSGABE",
+            "typ": "BAUSPARVERTRAG"
+          }
+        ],
+        "ehegattenUnterhalt": [
+          {
+            "einnahmenMonatlich": 0,
+            "zahlungsTyp": "EINNAHME"
+          }
+        ],
+        "einkuenfteAusNebentaetigkeit": [
+          {
+            "einnahmenMonatlich": 400,
+            "beginnDerNebentaetigkeit": "2022-01-01",
+            "zahlungsTyp": "EINNAHME"
+          }
+        ],
+        "sonstigeEinnahmen": [
+          {
+            "einnahmenMonatlich": 500,
+            "zahlungsTyp": "EINNAHME"
+          }
+        ],
+        "lebensUndRentenVersicherungen": [
+          {
+            "id": "69135e69182401e076fc0fdb",
+            "rueckkaufsWertAktuell": 25000,
+            "praemieMonatlich": 150,
+            "vermoegensEinsatz": "AUFLOESEN",
+            "vermoegensTyp": "VERMOEGEN",
+            "zahlungsTyp": "AUSGABE"
+          },
+          {
+            "id": "69135e69127c03184c1e78aa",
+            "rueckkaufsWertAktuell": 15000,
+            "praemieMonatlich": 100,
+            "vermoegensTyp": "VERMOEGEN",
+            "zahlungsTyp": "AUSGABE"
+          },
+          {
+            "id": "69135e69d4ff86bad1daf0e0",
+            "rueckkaufsWertAktuell": 10000,
+            "praemieMonatlich": 80,
+            "vermoegensTyp": "VERMOEGEN",
+            "zahlungsTyp": "AUSGABE"
+          }
+        ],
+        "mietAusgaben": [
+          {
+            "ausgabenMonatlich": 0,
+            "entfallenMitFinanzierung": false,
+            "zahlungsTyp": "AUSGABE"
+          }
+        ],
+        "privateDarlehen": [
+          {
+            "glaeubiger": "Familie",
+            "laufzeitEnde": "2025-12-31",
+            "rateMonatlich": 100,
+            "restschuld": 3000,
+            "vermoegensTyp": "VERBINDLICHKEIT",
+            "zahlungsTyp": "AUSGABE"
+          },
+          {
+            "glaeubiger": "Freunde",
+            "laufzeitEnde": "2024-12-31",
+            "rateMonatlich": 50,
+            "restschuld": 1500,
+            "vermoegensTyp": "VERBINDLICHKEIT",
+            "zahlungsTyp": "AUSGABE"
+          }
+        ],
+        "privateKrankenversicherung": [
+          {
+            "ausgabenMonatlich": 450,
+            "zahlungsTyp": "AUSGABE"
+          }
+        ],
+        "ratenkredite": [
+          {
+            "glaeubiger": "Commerzbank",
+            "laufzeitEnde": "2026-12-31",
+            "rateMonatlich": 200,
+            "restschuld": 5000,
+            "vermoegensTyp": "VERBINDLICHKEIT",
+            "zahlungsTyp": "AUSGABE"
+          },
+          {
+            "glaeubiger": "ADAC Leasing",
+            "laufzeitEnde": "2027-06-30",
+            "rateMonatlich": 150,
+            "restschuld": 8000,
+            "vermoegensTyp": "VERBINDLICHKEIT",
+            "zahlungsTyp": "AUSGABE"
+          },
+          {
+            "glaeubiger": "MediaMarkt Finanzierung",
+            "laufzeitEnde": "2025-03-31",
+            "rateMonatlich": 100,
+            "restschuld": 2000,
+            "vermoegensTyp": "VERBINDLICHKEIT",
+            "zahlungsTyp": "AUSGABE"
+          }
+        ],
+        "sparplaene": [
+          {
+            "aktuellerWert": 12000,
+            "vermoegensTyp": "VERMOEGEN",
+            "zahlungsTyp": "AUSGABE"
+          }
+        ],
+        "unbefristeteZusatzRenten": [
+          {
+            "einnahmenMonatlich": 200,
+            "zahlungsTyp": "EINNAHME"
+          }
+        ],
+        "variableEinkuenfte": [
+          {
+            "einnahmenMonatlich": 300,
+            "zahlungsTyp": "EINNAHME"
+          }
+        ],
+        "sonstigeVerbindlichkeiten": [
+          {
+            "rateMonatlich": 50,
+            "vermoegensTyp": "VERBINDLICHKEIT",
+            "zahlungsTyp": "AUSGABE"
+          }
+        ],
+        "sonstigeVermoegen": [
+          {
+            "aktuellerWert": 8000,
+            "vermoegensTyp": "VERMOEGEN"
+          }
+        ],
+        "wertpapiere": [
+          {
+            "aktuellerWert": 35000,
+            "zahlungsTyp": "EINNAHME",
+            "vermoegensTyp": "VERMOEGEN"
+          }
+        ],
+        "kindergeld": [
+          {
+            "einnahmenMonatlich": 510,
+            "zahlungsTyp": "EINNAHME"
+          }
+        ]
+      },
+      "kinder": [
+        {
+          "id": "69135e69827e74ca0bd5e5c6",
+          "geburtsdatum": "2018-05-01",
+          "kindergeldWirdBezogen": true,
+          "name": "Kind 1"
+        },
+        {
+          "id": "69135e691b079e024d1df3ff",
+          "geburtsdatum": "2020-08-15",
+          "kindergeldWirdBezogen": true,
+          "name": "Kind 2"
+        }
+      ]
+    }
+  ],
+  "vorhaben": {
+    "id": "69135e696aa90025cb40ae03",
+    "finanzierungswunsch": {
+      "id": "69135e6980a1afb428bd1f22"
+    },
+    "absicherungswunsch": {
+      "id": "69135e698d85c1ffba2de0ae"
+    }
+  },
+  "importQuelle": "Field-Mapping-System - Vollständige Struktur",
+  "datenKontext": "TEST_MODUS",
+  "aufbewahrungBis": "2026-05-30",
+  "praeferenzen": {},
+  "kundenBetreuer": {
+    "_links": {
+      "self": {
+        "href": "https://www.europace2.de/partnermanagement/partner/BBO62/kontaktdaten"
+      }
+    },
+    "id": "626fce2b783b680e750117ee",
+    "partnerId": "BBO62",
+    "anrede": "HERR",
+    "vorname": "Frank",
+    "nachname": "Gutknecht",
+    "firmierung": "Zinsboutique GmbH",
+    "email": "mail@zinsboutique.de",
+    "telefonnummer": "+49 721 95883205",
+    "anschrift": {
+      "hausnummer": "18",
+      "ort": "Karlsruhe",
+      "postleitzahl": "76227",
+      "strasse": "Ottostraße"
+    },
+    "webseite": "www.zinsboutique.de",
+    "vertriebsOrganisation": {
+      "name": "abakus24",
+      "firma": "abakus24 Service GmbH",
+      "vertriebsOrganisationsId": "ABAKUS24"
+    },
+    "geburtsdatum": "1984-09-18",
+    "kreditsachbearbeiter": false
+  }
+}
+
+✅ Saved basic vorgang data to europace-vorgang-basic-JL8Y5D.json
